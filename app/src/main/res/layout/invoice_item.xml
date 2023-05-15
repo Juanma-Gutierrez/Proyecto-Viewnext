@@ -2,11 +2,13 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/invoiceElement"
+    android:id="@+id/invoice_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingHorizontal="@dimen/medium_space"
-    android:paddingTop="@dimen/small_space">
+    android:paddingTop="@dimen/small_space"
+    android:onClick="onItemClick">
+
 
 
     <TextView

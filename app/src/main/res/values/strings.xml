@@ -4,6 +4,7 @@
 
     <!-- General -->
     <string name="close_button">Cerrar</string>
+    <string name="invoices_list_title">Facturas</string>
 
     <!-- Alert dialog -->
     <string name="alert_title">Información</string>
