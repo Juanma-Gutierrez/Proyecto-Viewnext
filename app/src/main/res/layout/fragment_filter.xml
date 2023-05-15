@@ -5,8 +5,8 @@
     android:id="@+id/filter_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".FilterFragment"
-    android:background="@android:color/white">
+    android:background="@android:color/white"
+    tools:context=".FilterFragment">
 
     <!-- Toolbar -->
     <include
@@ -15,6 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 
     <!-- Date filter -->
     <TextView
