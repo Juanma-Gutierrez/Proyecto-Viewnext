@@ -3,6 +3,8 @@ package com.example.proyectoviewnext;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -84,5 +86,16 @@ public class MainActivity extends AppCompatActivity {
 
     public void openFilter(MenuItem menu_item) {
         Toast.makeText(this, "OpenFilter", Toast.LENGTH_SHORT).show();
+
+        // Crear una instancia del FilterFragment
+        FilterFragment filterFragment = new FilterFragment();
+
+        // Obtener el FragmentManager
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, filterFragment)
+                .commit();
+
+
     }
 }

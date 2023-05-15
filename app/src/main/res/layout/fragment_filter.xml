@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/filter_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".FilterFragment"
+    android:background="@android:color/white">
+
+    <!-- Toolbar -->
+    <include
+        android:id="@+id/include_toolbar"
+        layout="@layout/toolbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Date filter -->
+    <TextView
+        android:id="@+id/date_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/medium_space"
+        android:text="@string/filter_fragment_date_title"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/include_toolbar"
+        tools:text="Con fecha de emisión" />
+
+    <TextView
+        android:id="@+id/date_start_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/medium_space"
+        android:text="@string/filter_fragment_date_start"
+        android:textColor="@color/dark_grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/date_title"
+        tools:text="Desde:" />
+
+    <TextView
+        android:id="@+id/date_end_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/filter_fragment_date_end"
+        android:textColor="@color/dark_grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/date_start_title"
+        tools:text="Hasta:" />
+
+    <Button
+        android:id="@+id/date_start_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/small_space"
+        android:backgroundTint="@color/light_grey"
+        android:paddingHorizontal="@dimen/medium_space"
+        android:text="@string/filter_fragment_date_button"
+        android:textAllCaps="false"
+        android:textColor="@android:color/black"
+        app:cornerRadius="@dimen/corner_radius"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/date_start_title" />
+
+    <Button
+        android:id="@+id/date_end_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/light_grey"
+        android:paddingHorizontal="@dimen/medium_space"
+        android:text="@string/filter_fragment_date_button"
+        android:textAllCaps="false"
+        android:textColor="@android:color/black"
+        app:cornerRadius="@dimen/corner_radius"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/date_end_title"
+        app:layout_constraintTop_toTopOf="@+id/date_start_button" />
+
+    <View
+        android:id="@+id/filter_divider_date"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginVertical="@dimen/medium_space"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/date_start_button" />
+
+    <!-- Amount filter -->
+    <TextView
+        android:id="@+id/filter_amount_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/medium_space"
+        android:text="@string/filter_fragment_amount_title"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/filter_divider_date"
+        tools:text="Por un importe" />
+
+    <TextView
+        android:id="@+id/filter_amount_min_selected"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/secondary"
+        app:layout_constraintEnd_toStartOf="@+id/filter_amount_selected_separator"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/filter_amount_selected_separator"
+        tools:text="5 €" />
+
+    <TextView
+        android:id="@+id/filter_amount_selected_separator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/medium_space"
+        android:paddingStart="@dimen/small_space"
+        android:paddingEnd="@dimen/small_space"
+        android:text="-"
+        android:textColor="@color/secondary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/filter_amount_title"
+        tools:text="-" />
+
+    <TextView
+        android:id="@+id/filter_amount_max_selected"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/secondary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/filter_amount_selected_separator"
+        app:layout_constraintTop_toTopOf="@+id/filter_amount_selected_separator"
+        tools:text="250 €" />
+
+    <TextView
+        android:id="@+id/filter_amount_min"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/dark_grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/filter_amount_selected_separator"
+        tools:text="1 €" />
+
+    <TextView
+        android:id="@+id/filter_amount_max"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/dark_grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/filter_amount_min"
+        tools:text="300 €" />
+
+    <SeekBar
+        android:id="@+id/filter_amount_seekbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/small_space"
+        android:progress="999"
+        android:progressBackgroundTint="@color/dark_grey"
+        android:progressTint="@color/secondary"
+        android:thumbTint="@color/secondary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/filter_amount_min" />
+
+    <View
+        android:id="@+id/filter_divider_amount"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginVertical="@dimen/medium_space"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/filter_amount_seekbar" />
+
+    <!-- Status filter -->
+    <TextView
+        android:id="@+id/filter_status_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/medium_space"
+        android:text="@string/filter_fragment_status_title"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/filter_divider_amount"
+        tools:text="Por estado" />
+
+    <CheckBox
+        android:id="@+id/filter_status_option1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/medium_space"
+        android:checked="false"
+        android:text="@string/filter_fragment_status_option1"
+        app:buttonTint="@color/dark_grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/filter_status_title"
+        tools:text="@string/filter_fragment_status_option1" />
+
+    <CheckBox
+        android:id="@+id/filter_status_option2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/filter_fragment_status_option2"
+        app:buttonTint="@color/dark_grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/filter_status_option1"
+        tools:text="@string/filter_fragment_status_option2" />
+
+    <CheckBox
+        android:id="@+id/filter_status_option3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/filter_fragment_status_option3"
+        app:buttonTint="@color/dark_grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/filter_status_option2"
+        tools:text="@string/filter_fragment_status_option3" />
+
+    <CheckBox
+        android:id="@+id/filter_status_option4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/filter_fragment_status_option4"
+        app:buttonTint="@color/dark_grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/filter_status_option3"
+        tools:text="@string/filter_fragment_status_option4" />
+
+    <CheckBox
+        android:id="@+id/filter_status_option5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/filter_fragment_status_option5"
+        app:buttonTint="@color/dark_grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/filter_status_option4"
+        tools:text="@string/filter_fragment_status_option5" />
+
+    <View
+        android:id="@+id/filter_divider_status"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginVertical="@dimen/medium_space"
+        android:background="?android:attr/listDivider"
+        app:cornerRadius="@dimen/corner_radius"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/filter_status_option5" />
+
+    <!-- Filter buttons -->
+    <Button
+        android:id="@+id/filter_apply_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/medium_space"
+        android:backgroundTint="@color/secondary"
+        android:text="@string/filter_fragment_apply_button"
+        app:cornerRadius="@dimen/corner_radius"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/filter_divider_status"
+        app:layout_constraintWidth_percent="0.5"
+        tools:text="@string/filter_fragment_apply_button" />
+
+    <Button
+        android:id="@+id/filter_delete_filters_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/light_grey"
+        android:text="@string/filter_fragment_delete_filters_button"
+        android:textColor="@android:color/black"
+        app:cornerRadius="@dimen/corner_radius"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/filter_apply_button"
+        app:layout_constraintWidth_percent="0.5"
+        tools:text="@string/filter_fragment_delete_filters_button" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
