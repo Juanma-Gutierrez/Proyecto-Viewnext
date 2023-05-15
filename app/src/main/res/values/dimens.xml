@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="toolbar_margin">20dp</dimen>
+    <dimen name="icon_back_size">20dp</dimen>
+    <dimen name="icon_close_size">48dp</dimen>
+    <dimen name="title_fontSize">30sp</dimen>
+    <dimen name="text_fontSize">20sp</dimen>
+    <dimen name="info_fontSize">16sp</dimen>
+    <dimen name="big_space">35dp</dimen>
+    <dimen name="medium_space">20dp</dimen>
+    <dimen name="small_space">5dp</dimen>
+    <dimen name="corner_radius">10dp</dimen>
+</resources>
