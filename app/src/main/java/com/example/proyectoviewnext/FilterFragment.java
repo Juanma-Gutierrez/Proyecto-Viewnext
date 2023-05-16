@@ -37,15 +37,39 @@ public class FilterFragment extends Fragment {
         this.filter = filter;
     }
 
+    /**
+     *
+     * @param inflater The LayoutInflater object that can be used to inflate
+     * any views in the fragment,
+     * @param container If non-null, this is the parent view that the fragment's
+     * UI should be attached to.  The fragment should not add the view itself,
+     * but this can be used to generate the LayoutParams of the view.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     * from a previous saved state as given here.
+     *
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Rellenar el layout para este fragment
         View view = inflater.inflate(R.layout.fragment_filter, container, false);
+        // Preparación del toolbar
         Toolbar toolbar = view.findViewById(R.id.toolbar);
         toolbar.inflateMenu(R.menu.menu_filter);
         toolbar.setTitle(R.string.filter_fragment_title);
+        // Asignación de listeners
+        setClickListeners(view);
+        // Carga los valores de filter
+        loadValues(filter);
+        return view;
+    }
 
+    /**
+     * Activa los listeners para todos los elementos de FilterFragment
+     * @param view
+     */
+    public void setClickListeners(View view){
         // Obtener referencias a los elementos del diseño
         date_from_button = view.findViewById(R.id.date_from_button);
         date_until_button = view.findViewById(R.id.date_until_button);
@@ -60,11 +84,11 @@ public class FilterFragment extends Fragment {
         apply_filter = view.findViewById(R.id.filter_apply_button);
         delete_filter.setOnClickListener(v -> deleteFilter());
         apply_filter.setOnClickListener(v -> applyFilter());
-
-        loadValues(filter);
-        return view;
     }
 
+    /**
+     * Aplicar el filtro, graba en el objeto filter la configuración de FilterFragment
+     */
     private void applyFilter() {
         // TODO Implementar la aplicación del filtro
         Log.d("applyFilter", "applyFilter");
@@ -80,6 +104,9 @@ public class FilterFragment extends Fragment {
         closeFragment();
     }
 
+    /**
+     * Borrado de todos los filtros
+     */
     private void deleteFilter() {
         Log.d("deleteFilter", "deleteFilter");
         filter.resetFilter();
@@ -87,6 +114,10 @@ public class FilterFragment extends Fragment {
         closeFragment();
     }
 
+    /**
+     * Carga los valores del objeto filter en FilterFragment
+     * @param filter Objeto filter con la configuración del filtro a aplicar
+     */
     private void loadValues(Filter filter) {
         Log.d("loadValues", "loadValues");
         if (date_from == null) {
@@ -106,7 +137,20 @@ public class FilterFragment extends Fragment {
         payment_plan.setChecked(filter.isPayment_plan());
     }
 
+    /**
+     * Cierra FilterFragment
+     */
+    private void closeFragment() {
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .remove(this)
+                .commit();
+    }
 
+    /**
+     * Log con información del objeto filtro
+     * @param msg Mensaje a mostrar por consola
+     */
     private void filterLog(String msg) {
         Log.d("filter", msg + " -> datefrom:" + filter.getDate_from() +
                 ", dateuntil:" + filter.getDate_until() +
@@ -118,12 +162,5 @@ public class FilterFragment extends Fragment {
                 ", fixed_fee:" + filter.isFixed_fee() +
                 ", pending_payment:" + filter.isPending_payment() +
                 ", payment_plan:" + filter.isPayment_plan());
-    }
-
-    private void closeFragment() {
-        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .remove(this)
-                .commit();
     }
 }

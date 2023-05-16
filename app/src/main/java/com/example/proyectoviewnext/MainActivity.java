@@ -33,7 +33,12 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recycler_view_list; // Vista donde se cargan las facturas
     private ArrayList<Invoice> invoice_list; // Array donde se guardarán los elementos de la lista
 
-
+    /**
+     * Este método se llama cuando se crea la activity por primera vez
+     *
+     * @param savedInstanceState Si la activity está siendo recreada, este bundle contiene los datos
+     *                           previos almacenados
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +48,12 @@ public class MainActivity extends AppCompatActivity {
         init();
     }
 
+    /**
+     * Este método se llama cuando se crea el menú de opciones por primera vez
+     *
+     * @param menu El menú de opciones
+     * @return True si el menú debe ser mostrado, falso en caso contrario
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -50,6 +61,9 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Inicializa la carga de datos de facturas
+     */
     public void init() {
         // Menu
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -82,26 +96,30 @@ public class MainActivity extends AppCompatActivity {
         recycler_view_list.setAdapter(adapter);
     }
 
-    // Diálogo al hacer click en los items
+    /**
+     * Diálogo al hacer click en los items
+     *
+     * @param v La vista donde se hizo click
+     */
     public void onItemClick(View v) {
         AlertDialog.Builder alert_dialog = new AlertDialog.Builder(this);
         alert_dialog
                 .setTitle(R.string.alert_title)
                 .setMessage(R.string.alert_info)
                 .setPositiveButton(R.string.close_button, (dialog, which) -> dialog.dismiss());
-        alert_dialog.create().show();
+        alert_dialog
+                .create()
+                .show();
     }
 
+    /**
+     * Abre el FilterFragment
+     *
+     * @param menu_item Elemento del menú
+     */
     public void openFilter(MenuItem menu_item) {
         Log.d("openFilter", "Open filter");
-        Log.d("filter", "datefrom:" + filter.getDate_from() +
-                ", dateuntil:" + filter.getDate_until() +
-                ", maxamount:" + filter.getMax_amount() +
-                ", paid:" + filter.isPaid() +
-                ", cancelled:" + filter.isCancelled() +
-                ", fixed_fee:" + filter.isFixed_fee() +
-                ", pending_payment:" + filter.isPending_payment() +
-                ", payment_plan:" + filter.isPayment_plan());
+        myLog("Open Filter");
         // Crear una instancia del FilterFragment
         FilterFragment filterFragment = new FilterFragment(filter);
 
@@ -130,15 +148,12 @@ public class MainActivity extends AppCompatActivity {
         Date new_date = calendar.getTime();
         Log.d("filter", String.format("calendar gettime: %s", calendar.getTime()));
 
-
         // Seleccionamos el botón pulsado
         int buttonId = view.getId();
         if (buttonId == R.id.date_from_button) {
-            Toast.makeText(this, "From", Toast.LENGTH_SHORT).show();
             date_button = findViewById(R.id.date_from_button);
             filter.setDate_from_temp(new_date);
         } else {
-            Toast.makeText(this, "until", Toast.LENGTH_SHORT).show();
             date_button = findViewById(R.id.date_until_button);
             filter.setDate_until_temp(new_date);
         }
@@ -159,5 +174,20 @@ public class MainActivity extends AppCompatActivity {
             }
         }, year, month, day);
         dpd.show();
+    }
+
+    /**
+     * Log con información del filtro
+     * @param msg Mensaje personalizado
+     */
+    public void myLog(String msg){
+        Log.d("filter", msg + " -> datefrom:" + filter.getDate_from() +
+                ", dateuntil:" + filter.getDate_until() +
+                ", maxamount:" + filter.getMax_amount() +
+                ", paid:" + filter.isPaid() +
+                ", cancelled:" + filter.isCancelled() +
+                ", fixed_fee:" + filter.isFixed_fee() +
+                ", pending_payment:" + filter.isPending_payment() +
+                ", payment_plan:" + filter.isPayment_plan());
     }
 }

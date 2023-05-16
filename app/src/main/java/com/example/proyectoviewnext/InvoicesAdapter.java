@@ -18,15 +18,30 @@ import java.util.List;
 public class InvoicesAdapter extends RecyclerView.Adapter<InvoicesAdapter.InvoicesViewHolder> {
     private ArrayList<Invoice> invoices_list;
 
+    /**
+     * Inicializa el adaptador InvoicesAdapter
+     * @param invoices_list Lista de facturas
+     */
     public InvoicesAdapter(ArrayList<Invoice> invoices_list) {
         this.invoices_list = invoices_list;
     }
 
+    /**
+     * Configura la lista de facturas invoices
+     * @param invoices_list Lista de facturas
+     */
     public void setInvoices_list(ArrayList<Invoice> invoices_list) {
         this.invoices_list = invoices_list;
     }
 
-    // Creación del viewholder donde estará cada factura
+    /**
+     * Creación del viewholder donde estará cada factura
+     * @param parent El ViewGroup al que se añadirá la nueva View después de que se vincule a una
+     *              posición de adaptador.
+     * @param viewType El tipo de view de la nueva View.
+     *
+     * @return
+     */
     @NonNull
     @Override
     public InvoicesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -34,7 +49,12 @@ public class InvoicesAdapter extends RecyclerView.Adapter<InvoicesAdapter.Invoic
         return new InvoicesViewHolder(v);
     }
 
-    // Carga del layout en la vista con el listado de facturas
+    /**
+     * Carga del layout en la vista con el listado de facturas
+     * @param holder El ViewHolder que debe actualizarse para representar el contenido del elemento
+     *               en la posición dada en el conjunto de datos
+     * @param position La posición del elemento dentro del conjunto de datos del adaptador
+     */
     @Override
     public void onBindViewHolder(@NonNull InvoicesViewHolder holder, int position) {
         Invoice invoice = invoices_list.get(position);
@@ -54,6 +74,11 @@ public class InvoicesAdapter extends RecyclerView.Adapter<InvoicesAdapter.Invoic
         private TextView text_view_status;
         private TextView text_view_amount;
 
+        /**
+         * Inicializa los atributos text_view_date, text_view_status y text_view_amount
+         * con las referencias a los elementos correspondientes en la vista recibida
+         * @param v Vista que contiene los elementos de la factura
+         */
         public InvoicesViewHolder(@NonNull View v) {
             super(v);
             this.text_view_date = (TextView) v.findViewById(R.id.invoice_date);

@@ -12,6 +12,9 @@ public final class AppConstants {
     public static final String BASE_URL = "https://viewnextandroid2.wiremockapi.cloud/";
     public static final String URL_PATH = "facturas";
 
+    /**
+     * Constructor privado para ocultar el constructor público implícito
+     */
     private AppConstants() {
     }
 
