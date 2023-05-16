@@ -22,21 +22,22 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.zip.Inflater;
 
 public class MainActivity extends AppCompatActivity {
 
-
-    RecyclerView recycler_view_list; // Vista donde se cargan las facturas
-    ArrayList<Invoice> invoice_list; // Array donde se guardarán los elementos de la lista
+    private Filter filter;
+    private RecyclerView recycler_view_list; // Vista donde se cargan las facturas
+    private ArrayList<Invoice> invoice_list; // Array donde se guardarán los elementos de la lista
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.invoices_list);
-
+        filter = new Filter();
         // Cargamos los datos
         init();
     }
@@ -92,8 +93,16 @@ public class MainActivity extends AppCompatActivity {
 
     public void openFilter(MenuItem menu_item) {
         Log.d("openFilter", "Open filter");
+        Log.d("filter", "datefrom:" + filter.getDate_from() +
+                ", dateuntil:" + filter.getDate_until() +
+                ", maxamount:" + filter.getMax_amount() +
+                ", paid:" + filter.isPaid() +
+                ", cancelled:" + filter.isCancelled() +
+                ", fixed_fee:" + filter.isFixed_fee() +
+                ", pending_payment:" + filter.isPending_payment() +
+                ", payment_plan:" + filter.isPayment_plan());
         // Crear una instancia del FilterFragment
-        FilterFragment filterFragment = new FilterFragment();
+        FilterFragment filterFragment = new FilterFragment(filter);
 
         // Obtener el FragmentManager
         getSupportFragmentManager()
@@ -117,13 +126,19 @@ public class MainActivity extends AppCompatActivity {
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
+        Date new_date = calendar.getTime();
+        Log.d("filter", String.format("calendar gettime: %s", calendar.getTime()));
 
         // Seleccionamos el botón pulsado
         int buttonId = view.getId();
         if (buttonId == R.id.date_from_button) {
+            Toast.makeText(this, "From", Toast.LENGTH_SHORT).show();
             date_button = findViewById(R.id.date_from_button);
+            filter.setDate_from_temp(new_date);
         } else {
+            Toast.makeText(this, "until", Toast.LENGTH_SHORT).show();
             date_button = findViewById(R.id.date_until_button);
+            filter.setDate_until_temp(new_date);
         }
         DatePickerDialog dpd = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -133,10 +148,14 @@ public class MainActivity extends AppCompatActivity {
                 String date = dayOfMonth + "/" + month + "/" + year;
                 Log.d("openCalendar Date", date);
                 date_button.setText(date);
+/*                Calendar calendar = Calendar.getInstance();
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, --month);
+                calendar.set(Calendar.DAY_OF_MONTH, day);
+                Date new_date = calendar.getTime();
+                Log.d("filter:", String.format("new dateeeee:%s", new_date));*/
             }
         }, year, month, day);
         dpd.show();
-
     }
-
 }
