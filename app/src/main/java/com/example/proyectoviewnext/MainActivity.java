@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -81,12 +82,10 @@ public class MainActivity extends AppCompatActivity {
                 .setMessage(R.string.alert_info)
                 .setPositiveButton(R.string.close_button, (dialog, which) -> dialog.dismiss());
         alert_dialog.create().show();
-
     }
 
     public void openFilter(MenuItem menu_item) {
-        Toast.makeText(this, "OpenFilter", Toast.LENGTH_SHORT).show();
-
+        Log.d("openFilter", "Open filter");
         // Crear una instancia del FilterFragment
         FilterFragment filterFragment = new FilterFragment();
 
@@ -95,7 +94,14 @@ public class MainActivity extends AppCompatActivity {
                 .beginTransaction()
                 .replace(R.id.fragment_container, filterFragment)
                 .commit();
+    }
 
-
+    public void closeFilter(MenuItem menu_item){
+        Log.d("closeFilter", "Close filter");
+        // Cerrar el FragmentManager
+        getSupportFragmentManager()
+                .beginTransaction()
+                .remove(getSupportFragmentManager().findFragmentById(R.id.fragment_container))
+                .commit();
     }
 }
