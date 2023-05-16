@@ -5,7 +5,6 @@ import java.util.Date;
 public class Filter {
     private Date date_from;
     private Date date_until;
-
     private Date date_from_temp;
     private Date date_until_temp;
     private int max_amount;

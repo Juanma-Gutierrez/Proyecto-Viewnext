@@ -31,7 +31,7 @@ public class FilterFragment extends Fragment {
     private Button delete_filter;
     private Button apply_filter;
     private Filter filter;
-    private final String button_text = "día/mes/año";
+    private final String button_text = AppConstants.DATE_BUTTON;
 
     public FilterFragment(Filter filter) {
         this.filter = filter;
@@ -46,7 +46,6 @@ public class FilterFragment extends Fragment {
         toolbar.inflateMenu(R.menu.menu_filter);
         toolbar.setTitle(R.string.filter_fragment_title);
 
-
         // Obtener referencias a los elementos del diseño
         date_from_button = view.findViewById(R.id.date_from_button);
         date_until_button = view.findViewById(R.id.date_until_button);
@@ -59,7 +58,6 @@ public class FilterFragment extends Fragment {
         payment_plan = view.findViewById(R.id.checkbox_payment_plan);
         delete_filter = view.findViewById(R.id.filter_delete_filters_button);
         apply_filter = view.findViewById(R.id.filter_apply_button);
-
         delete_filter.setOnClickListener(v -> deleteFilter());
         apply_filter.setOnClickListener(v -> applyFilter());
 
@@ -70,6 +68,7 @@ public class FilterFragment extends Fragment {
     private void applyFilter() {
         // TODO Implementar la aplicación del filtro
         Log.d("applyFilter", "applyFilter");
+        filterLog("Aplicado el filtro entrada");
         filter.setDate_from(filter.getDate_from_temp());
         filter.setDate_until(filter.getDate_until_temp());
         filter.setPaid(paid.isChecked());
@@ -77,7 +76,7 @@ public class FilterFragment extends Fragment {
         filter.setFixed_fee(fixed_fee.isChecked());
         filter.setPending_payment(pending_payment.isChecked());
         filter.setPayment_plan(payment_plan.isChecked());
-        filterLog("Aplicando el filtro");
+        filterLog("Aplicado el filtro salida");
         closeFragment();
     }
 

@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -128,6 +129,7 @@ public class MainActivity extends AppCompatActivity {
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         Date new_date = calendar.getTime();
         Log.d("filter", String.format("calendar gettime: %s", calendar.getTime()));
+
 
         // Seleccionamos el botón pulsado
         int buttonId = view.getId();
