@@ -57,12 +57,13 @@
         tools:text="Hasta:" />
 
     <Button
-        android:id="@+id/date_start_button"
+        android:id="@+id/date_from_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/medium_space"
         android:layout_marginTop="@dimen/small_space"
         android:backgroundTint="@color/light_grey"
+        android:onClick="openCalendar"
         android:paddingHorizontal="@dimen/medium_space"
         android:text="@string/filter_fragment_date_button"
         android:textAllCaps="false"
@@ -72,10 +73,11 @@
         app:layout_constraintTop_toBottomOf="@+id/date_start_title" />
 
     <Button
-        android:id="@+id/date_end_button"
+        android:id="@+id/date_until_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/light_grey"
+        android:onClick="openCalendar"
         android:paddingHorizontal="@dimen/medium_space"
         android:text="@string/filter_fragment_date_button"
         android:textAllCaps="false"
@@ -84,7 +86,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/date_end_title"
-        app:layout_constraintTop_toTopOf="@+id/date_start_button" />
+        app:layout_constraintTop_toTopOf="@+id/date_from_button" />
 
     <View
         android:id="@+id/filter_divider_date"
@@ -95,7 +97,7 @@
         android:background="?android:attr/listDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/date_start_button" />
+        app:layout_constraintTop_toBottomOf="@+id/date_from_button" />
 
     <!-- Amount filter -->
     <TextView

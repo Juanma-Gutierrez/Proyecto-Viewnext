@@ -40,7 +40,7 @@ public class InvoicesAdapter extends RecyclerView.Adapter<InvoicesAdapter.Invoic
         Invoice invoice = invoices_list.get(position);
         holder.getText_view_date().setText(invoice.getDate());
         holder.getText_view_status().setText(invoice.getStatus());
-        holder.getText_view_amount().setText(String.format("%.2f", invoice.getAmount()));
+        holder.getText_view_amount().setText(String.format("%.2f €", invoice.getAmount()));
     }
 
     // Devuelve el contador de elementos de la vista

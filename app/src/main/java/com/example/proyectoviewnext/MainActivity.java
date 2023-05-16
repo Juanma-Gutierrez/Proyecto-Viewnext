@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,16 +16,21 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.zip.Inflater;
 
 public class MainActivity extends AppCompatActivity {
 
+
     RecyclerView recycler_view_list; // Vista donde se cargan las facturas
     ArrayList<Invoice> invoice_list; // Array donde se guardarán los elementos de la lista
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
-    public void closeFilter(MenuItem menu_item){
+    public void closeFilter(MenuItem menu_item) {
         Log.d("closeFilter", "Close filter");
         // Cerrar el FragmentManager
         getSupportFragmentManager()
@@ -104,4 +110,33 @@ public class MainActivity extends AppCompatActivity {
                 .remove(getSupportFragmentManager().findFragmentById(R.id.fragment_container))
                 .commit();
     }
+
+    public void openCalendar(View view) {
+        Button date_button;
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        // Seleccionamos el botón pulsado
+        int buttonId = view.getId();
+        if (buttonId == R.id.date_from_button) {
+            date_button = findViewById(R.id.date_from_button);
+        } else {
+            date_button = findViewById(R.id.date_until_button);
+        }
+        DatePickerDialog dpd = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                month++;
+                Log.d("openCalendar", "Year: " + year + ", Month: " + month + ", Day: " + day);
+                String date = dayOfMonth + "/" + month + "/" + year;
+                Log.d("openCalendar Date", date);
+                date_button.setText(date);
+            }
+        }, year, month, day);
+        dpd.show();
+
+    }
+
 }

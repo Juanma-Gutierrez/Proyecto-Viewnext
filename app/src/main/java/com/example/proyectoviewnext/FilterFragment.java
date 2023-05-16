@@ -5,13 +5,18 @@ import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+
+import java.util.Calendar;
 
 public class FilterFragment extends Fragment {
-   public FilterFragment() {
-        // Required empty public constructor
+    public FilterFragment() {
+        Button date_from_button;
+        Button date_until_button;
     }
 
     @Override
@@ -24,4 +29,6 @@ public class FilterFragment extends Fragment {
         toolbar.setTitle(R.string.filter_fragment_title);
         return view;
     }
+
+
 }
