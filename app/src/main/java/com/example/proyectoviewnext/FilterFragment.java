@@ -12,8 +12,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class FilterFragment extends Fragment {
     private Button date_from_button;
@@ -31,22 +35,20 @@ public class FilterFragment extends Fragment {
     private Button delete_filter;
     private Button apply_filter;
     private Filter filter;
-    private final String button_text = AppConstants.DATE_BUTTON;
+
 
     public FilterFragment(Filter filter) {
         this.filter = filter;
     }
 
     /**
-     *
-     * @param inflater The LayoutInflater object that can be used to inflate
-     * any views in the fragment,
-     * @param container If non-null, this is the parent view that the fragment's
-     * UI should be attached to.  The fragment should not add the view itself,
-     * but this can be used to generate the LayoutParams of the view.
+     * @param inflater           The LayoutInflater object that can be used to inflate
+     *                           any views in the fragment,
+     * @param container          If non-null, this is the parent view that the fragment's
+     *                           UI should be attached to.  The fragment should not add the view itself,
+     *                           but this can be used to generate the LayoutParams of the view.
      * @param savedInstanceState If non-null, this fragment is being re-constructed
-     * from a previous saved state as given here.
-     *
+     *                           from a previous saved state as given here.
      * @return
      */
     @Override
@@ -67,9 +69,10 @@ public class FilterFragment extends Fragment {
 
     /**
      * Activa los listeners para todos los elementos de FilterFragment
+     *
      * @param view
      */
-    public void setClickListeners(View view){
+    public void setClickListeners(View view) {
         // Obtener referencias a los elementos del diseño
         date_from_button = view.findViewById(R.id.date_from_button);
         date_until_button = view.findViewById(R.id.date_until_button);
@@ -92,7 +95,6 @@ public class FilterFragment extends Fragment {
     private void applyFilter() {
         // TODO Implementar la aplicación del filtro
         Log.d("applyFilter", "applyFilter");
-        filterLog("Aplicado el filtro entrada");
         filter.setDate_from(filter.getDate_from_temp());
         filter.setDate_until(filter.getDate_until_temp());
         filter.setPaid(paid.isChecked());
@@ -100,7 +102,6 @@ public class FilterFragment extends Fragment {
         filter.setFixed_fee(fixed_fee.isChecked());
         filter.setPending_payment(pending_payment.isChecked());
         filter.setPayment_plan(payment_plan.isChecked());
-        filterLog("Aplicado el filtro salida");
         closeFragment();
     }
 
@@ -115,25 +116,28 @@ public class FilterFragment extends Fragment {
 
     /**
      * Carga los valores del objeto filter en FilterFragment
+     *
      * @param filter Objeto filter con la configuración del filtro a aplicar
      */
     private void loadValues(Filter filter) {
-        Log.d("loadValues", "loadValues");
-        if (date_from == null) {
-            date_from_button.setText(button_text);
-        } else {
-            date_from_button.setText((CharSequence) filter.getDate_from());
-        }
-        if (date_until == null) {
-            date_until_button.setText(button_text);
-        } else {
-            date_until_button.setText((CharSequence) filter.getDate_from());
-        }
+        Log.d("filter", "loadValues");
+        date_from_button.setText((filter.getDate_from() == null) ?
+                AppConstants.DATE_BUTTON :
+                dateFormat(filter.getDate_from()));
+        date_until_button.setText((filter.getDate_until() == null) ?
+                AppConstants.DATE_BUTTON :
+                dateFormat(filter.getDate_until()));
         paid.setChecked(filter.isPaid());
         cancelled.setChecked(filter.isCancelled());
         fixed_fee.setChecked(filter.isFixed_fee());
         pending_payment.setChecked(filter.isPending_payment());
         payment_plan.setChecked(filter.isPayment_plan());
+    }
+
+    public String dateFormat(Date date) {
+        SimpleDateFormat new_format = new SimpleDateFormat("dd/MM/yyyy", new Locale("es", "ES"));
+        String new_date = new_format.format(date);
+        return new_date;
     }
 
     /**
@@ -148,6 +152,7 @@ public class FilterFragment extends Fragment {
 
     /**
      * Log con información del objeto filtro
+     *
      * @param msg Mensaje a mostrar por consola
      */
     private void filterLog(String msg) {

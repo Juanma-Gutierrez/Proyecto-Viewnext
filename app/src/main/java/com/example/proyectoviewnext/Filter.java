@@ -107,7 +107,9 @@ public class Filter {
 
     public void resetFilter() {
         this.date_from = null;
+        this.date_from_temp = null;
         this.date_until = null;
+        this.date_until_temp = null;
         this.max_amount = getMax_amount();
         this.paid = false;
         this.cancelled = false;

@@ -141,41 +141,60 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openCalendar(View view) {
-        Button date_button;
+        myLog("NUEVO CALENDARIO");
+        Button date_button_from;
+        Button date_button_until;
+        String button_selected;
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         Date new_date = calendar.getTime();
-        Log.d("filter", String.format("calendar gettime: %s", calendar.getTime()));
+        Calendar current_date = Calendar.getInstance();
+        Date current_day = current_date.getTime();
+
+        // Capturamos los botones
+        date_button_from = findViewById(R.id.date_from_button);
+        date_button_until = findViewById(R.id.date_until_button);
 
         // Seleccionamos el botón pulsado
         int buttonId = view.getId();
-        if (buttonId == R.id.date_from_button) {
-            date_button = findViewById(R.id.date_from_button);
-            filter.setDate_from_temp(new_date);
-        } else {
-            date_button = findViewById(R.id.date_until_button);
-            filter.setDate_until_temp(new_date);
-        }
+        button_selected = (buttonId == R.id.date_from_button) ? "from" : "until";
+
         DatePickerDialog dpd = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 Date date_picker = getNewDate(year, month, dayOfMonth);
-                filter.setDate_from(date_picker);
-                date_button.setText(dateFormat(date_picker));
+                filter.setDate_from_temp(date_picker);
+                if (button_selected == "from") {
+                    myLog("fechas FROM");
+                    if (filter.getDate_until() == null && filter.getDate_until_temp() == null) {
+                        date_button_until.setText(dateFormat(current_day));
+                        filter.setDate_until_temp(current_day);
+                    }
+                    date_button_from.setText(dateFormat(date_picker));
+                    filter.setDate_from_temp(date_picker);
+                } else { // button until selected
+                    myLog("fechas UNTIL");
+                    if (filter.getDate_from() == null && filter.getDate_from_temp() == null) {
+                        date_button_from.setText(dateFormat(date_picker));
+                        filter.setDate_from_temp(date_picker);
+                    }
+                    date_button_until.setText(dateFormat(date_picker));
+                    filter.setDate_until_temp(date_picker);
+                }
             }
         }, year, month, day);
         dpd.show();
     }
 
-    public String dateFormat(Date date){
+    public String dateFormat(Date date) {
         SimpleDateFormat new_format = new SimpleDateFormat("dd/MM/yyyy", new Locale("es", "ES"));
         String new_date = new_format.format(date);
         return new_date;
     }
 
-    public Date getNewDate(int year, int month, int dayOfMonth){
+    public Date getNewDate(int year, int month, int dayOfMonth) {
         Calendar new_calendar = Calendar.getInstance();
         new_calendar.set(Calendar.YEAR, year);
         new_calendar.set(Calendar.MONTH, month);
@@ -186,11 +205,14 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Log con información del filtro
+     *
      * @param msg Mensaje personalizado
      */
-    public void myLog(String msg){
+    public void myLog(String msg) {
         Log.d("filter", msg + " -> datefrom:" + filter.getDate_from() +
                 ", dateuntil:" + filter.getDate_until() +
+                ", datefromtemp:" + filter.getDate_from_temp() +
+                ", dateuntiltemp:" + filter.getDate_until_temp() +
                 ", maxamount:" + filter.getMax_amount() +
                 ", paid:" + filter.isPaid() +
                 ", cancelled:" + filter.isCancelled() +
