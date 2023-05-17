@@ -80,17 +80,17 @@ public class MainActivity extends AppCompatActivity {
         }
 
         invoice_list = new ArrayList<>();
-/*        invoice_list.add(new Invoice("12/10/2020", "Pendiente", 50.23));
-        invoice_list.add(new Invoice("10/10/2020", "Pendiente", 30.10));
-        invoice_list.add(new Invoice("8/10/2020", "Pagado", 5.75));
-        invoice_list.add(new Invoice("6/10/2020", "", 125.50));
         invoice_list.add(new Invoice("12/10/2020", "Pendiente", 50.23));
         invoice_list.add(new Invoice("10/10/2020", "Pendiente", 30.10));
         invoice_list.add(new Invoice("8/10/2020", "Pagado", 5.75));
         invoice_list.add(new Invoice("6/10/2020", "", 125.50));
         invoice_list.add(new Invoice("12/10/2020", "Pendiente", 50.23));
         invoice_list.add(new Invoice("10/10/2020", "Pendiente", 30.10));
-        invoice_list.add(new Invoice("8/10/2020", "Pagado", 5.75));*/
+        invoice_list.add(new Invoice("8/10/2020", "Pagado", 5.75));
+        invoice_list.add(new Invoice("6/10/2020", "", 125.50));
+        invoice_list.add(new Invoice("12/10/2020", "Pendiente", 50.23));
+        invoice_list.add(new Invoice("10/10/2020", "Pendiente", 30.10));
+        invoice_list.add(new Invoice("8/10/2020", "Pagado", 5.75));
         invoice_list.add(new Invoice("6/10/2020", "", 184.99));
 
         InvoicesAdapter adapter = new InvoicesAdapter(invoice_list);
@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
      *
      * @param v La vista donde se hizo click
      */
-    //TODO REVISAR EL CAMBIO DE ESTE CÓDIGO A LISTENER
+    //TODO VER LA POSIBILIDAD DE CAMBIAR ESTE CÓDIGO A LISTENER
     public void onItemClick(View v) {
         Log.d("debug", "onItemClick");
         AlertDialog.Builder alert_dialog = new AlertDialog.Builder(this);

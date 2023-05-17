@@ -20,6 +20,7 @@ public class InvoicesAdapter extends RecyclerView.Adapter<InvoicesAdapter.Invoic
 
     /**
      * Inicializa el adaptador InvoicesAdapter
+     *
      * @param invoices_list Lista de facturas
      */
     public InvoicesAdapter(ArrayList<Invoice> invoices_list) {
@@ -28,6 +29,7 @@ public class InvoicesAdapter extends RecyclerView.Adapter<InvoicesAdapter.Invoic
 
     /**
      * Configura la lista de facturas invoices
+     *
      * @param invoices_list Lista de facturas
      */
     public void setInvoices_list(ArrayList<Invoice> invoices_list) {
@@ -36,10 +38,10 @@ public class InvoicesAdapter extends RecyclerView.Adapter<InvoicesAdapter.Invoic
 
     /**
      * Creación del viewholder donde estará cada factura
-     * @param parent El ViewGroup al que se añadirá la nueva View después de que se vincule a una
-     *              posición de adaptador.
-     * @param viewType El tipo de view de la nueva View.
      *
+     * @param parent   El ViewGroup al que se añadirá la nueva View después de que se vincule a una
+     *                 posición de adaptador.
+     * @param viewType El tipo de view de la nueva View.
      * @return
      */
     @NonNull
@@ -51,16 +53,18 @@ public class InvoicesAdapter extends RecyclerView.Adapter<InvoicesAdapter.Invoic
 
     /**
      * Carga del layout en la vista con el listado de facturas
-     * @param holder El ViewHolder que debe actualizarse para representar el contenido del elemento
-     *               en la posición dada en el conjunto de datos
+     *
+     * @param holder   El ViewHolder que debe actualizarse para representar el contenido del elemento
+     *                 en la posición dada en el conjunto de datos
      * @param position La posición del elemento dentro del conjunto de datos del adaptador
      */
     @Override
     public void onBindViewHolder(@NonNull InvoicesViewHolder holder, int position) {
-        Invoice invoice = invoices_list.get(position);
-        holder.getText_view_date().setText(invoice.getDate());
-        holder.getText_view_status().setText(invoice.getStatus());
-        holder.getText_view_amount().setText(String.format("%.2f €", invoice.getAmount()));
+            Invoice invoice = invoices_list.get(position);
+            holder.getText_view_date().setText(invoice.getDate());
+            holder.getText_view_status().setText(invoice.getStatus());
+            holder.getText_view_amount().setText(String.format("%.2f €", invoice.getAmount()));
+
     }
 
     // Devuelve el contador de elementos de la vista
@@ -77,6 +81,7 @@ public class InvoicesAdapter extends RecyclerView.Adapter<InvoicesAdapter.Invoic
         /**
          * Inicializa los atributos text_view_date, text_view_status y text_view_amount
          * con las referencias a los elementos correspondientes en la vista recibida
+         *
          * @param v Vista que contiene los elementos de la factura
          */
         public InvoicesViewHolder(@NonNull View v) {
