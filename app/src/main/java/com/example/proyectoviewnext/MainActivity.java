@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
      * @param menu_item Elemento del menú
      */
     public void openFilter(MenuItem menu_item) {
-        Log.d("openFilter", "Open filter");
+        Log.d("debug", "openFilter()");
         myLog("Open Filter");
         // Crear una instancia del FilterFragment
         FilterFragment filterFragment = new FilterFragment(filter);
@@ -131,8 +131,13 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
+    /**
+     * Cierra el fragment filter
+     *
+     * @param menu_item
+     */
     public void closeFilter(MenuItem menu_item) {
-        Log.d("closeFilter", "Close filter");
+        Log.d("debug", "closeFilter()");
         // Cerrar el FragmentManager
         getSupportFragmentManager()
                 .beginTransaction()
@@ -140,8 +145,13 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
+    /**
+     * Abre un calendario para capturar el día y almacenarlo en filter
+     *
+     * @param view Vista cargada
+     */
     public void openCalendar(View view) {
-        myLog("NUEVO CALENDARIO");
+        Log.d("debug", "openCalendar()");
         Button date_button_from;
         Button date_button_until;
         String button_selected;
@@ -165,9 +175,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 Date date_picker = getNewDate(year, month, dayOfMonth);
-                filter.setDate_from_temp(date_picker);
                 if (button_selected == "from") {
-                    myLog("fechas FROM");
+                    // Comprobar si hay que rellenar until
                     if (filter.getDate_until() == null && filter.getDate_until_temp() == null) {
                         date_button_until.setText(dateFormat(current_day));
                         filter.setDate_until_temp(current_day);
@@ -175,11 +184,6 @@ public class MainActivity extends AppCompatActivity {
                     date_button_from.setText(dateFormat(date_picker));
                     filter.setDate_from_temp(date_picker);
                 } else { // button until selected
-                    myLog("fechas UNTIL");
-                    if (filter.getDate_from() == null && filter.getDate_from_temp() == null) {
-                        date_button_from.setText(dateFormat(date_picker));
-                        filter.setDate_from_temp(date_picker);
-                    }
                     date_button_until.setText(dateFormat(date_picker));
                     filter.setDate_until_temp(date_picker);
                 }
@@ -188,19 +192,35 @@ public class MainActivity extends AppCompatActivity {
         dpd.show();
     }
 
+    /**
+     * Aplica el formato local a la fecha pasada por parámetro y la convierte en String
+     *
+     * @param date Fecha a aplicar el formato
+     * @return String con la fecha convertida en texto en formato local
+     */
     public String dateFormat(Date date) {
-        SimpleDateFormat new_format = new SimpleDateFormat("dd/MM/yyyy", new Locale("es", "ES"));
+        SimpleDateFormat new_format = new SimpleDateFormat(AppConstants.API_DATE_FORMAT,
+                new Locale(AppConstants.API_DATE_LANGUAGE1,
+                        AppConstants.API_DATE_LANGUAGE2));
         String new_date = new_format.format(date);
         return new_date;
     }
 
+    /**
+     * Crea un nuevo Date con los datos pasados por parámetro
+     *
+     * @param year       Año
+     * @param month      Mes
+     * @param dayOfMonth Día del mes
+     * @return Date con la fecha generada
+     */
     public Date getNewDate(int year, int month, int dayOfMonth) {
         Calendar new_calendar = Calendar.getInstance();
         new_calendar.set(Calendar.YEAR, year);
         new_calendar.set(Calendar.MONTH, month);
         new_calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-        Date date_picker = new_calendar.getTime();
-        return date_picker;
+        Date date = new_calendar.getTime();
+        return date;
     }
 
     /**
@@ -209,7 +229,7 @@ public class MainActivity extends AppCompatActivity {
      * @param msg Mensaje personalizado
      */
     public void myLog(String msg) {
-        Log.d("filter", msg + " -> datefrom:" + filter.getDate_from() +
+        Log.d("debug", msg + " -> datefrom:" + filter.getDate_from() +
                 ", dateuntil:" + filter.getDate_until() +
                 ", datefromtemp:" + filter.getDate_from_temp() +
                 ", dateuntiltemp:" + filter.getDate_until_temp() +
