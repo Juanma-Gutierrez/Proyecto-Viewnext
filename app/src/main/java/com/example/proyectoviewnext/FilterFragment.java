@@ -141,9 +141,7 @@ public class FilterFragment extends Fragment {
         date_until_button.setText((filter.getDate_until() == null) ?
                 AppConstants.DATE_BUTTON :
                 dateFormat(filter.getDate_until()));
-
         amount_seekbar.setMax((int) filter.getMax_amount());
-
         amount_seekbar.setProgress(filter.getAmount_selected());
         amount_max_title.setText(String.valueOf(filter.getMax_amount()) + " €");
         paid.setChecked(filter.isPaid());
@@ -177,6 +175,7 @@ public class FilterFragment extends Fragment {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 amount_seekbar_selected = progress;
+                amount_max_selected.setText(String.valueOf(progress)+" €");
             }
 
             @Override

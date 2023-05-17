@@ -120,7 +120,7 @@ public class Filter {
         this.date_from_temp = null;
         this.date_until = null;
         this.date_until_temp = null;
-        this.amount_selected = getAmount_selected();
+        this.amount_selected = (int) getMax_amount();
         this.paid = false;
         this.cancelled = false;
         this.fixed_fee = false;

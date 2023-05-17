@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
         invoice_list.add(new Invoice("12/10/2020", "Pendiente", 50.23));
         invoice_list.add(new Invoice("10/10/2020", "Pendiente", 30.10));
         invoice_list.add(new Invoice("8/10/2020", "Pagado", 5.75));*/
-        invoice_list.add(new Invoice("6/10/2020", "", 2584.99));
+        invoice_list.add(new Invoice("6/10/2020", "", 184.99));
 
         InvoicesAdapter adapter = new InvoicesAdapter(invoice_list);
         recycler_view_list.setAdapter(adapter);
