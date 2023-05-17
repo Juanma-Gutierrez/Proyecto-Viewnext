@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.zip.Inflater;
 
 public class MainActivity extends AppCompatActivity {
@@ -160,20 +161,27 @@ public class MainActivity extends AppCompatActivity {
         DatePickerDialog dpd = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                month++;
-                Log.d("openCalendar", "Year: " + year + ", Month: " + month + ", Day: " + day);
-                String date = dayOfMonth + "/" + month + "/" + year;
-                Log.d("openCalendar Date", date);
-                date_button.setText(date);
-/*                Calendar calendar = Calendar.getInstance();
-                calendar.set(Calendar.YEAR, year);
-                calendar.set(Calendar.MONTH, --month);
-                calendar.set(Calendar.DAY_OF_MONTH, day);
-                Date new_date = calendar.getTime();
-                Log.d("filter:", String.format("new dateeeee:%s", new_date));*/
+                Date date_picker = getNewDate(year, month, dayOfMonth);
+                filter.setDate_from(date_picker);
+                date_button.setText(dateFormat(date_picker));
             }
         }, year, month, day);
         dpd.show();
+    }
+
+    public String dateFormat(Date date){
+        SimpleDateFormat new_format = new SimpleDateFormat("dd/MM/yyyy", new Locale("es", "ES"));
+        String new_date = new_format.format(date);
+        return new_date;
+    }
+
+    public Date getNewDate(int year, int month, int dayOfMonth){
+        Calendar new_calendar = Calendar.getInstance();
+        new_calendar.set(Calendar.YEAR, year);
+        new_calendar.set(Calendar.MONTH, month);
+        new_calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        Date date_picker = new_calendar.getTime();
+        return date_picker;
     }
 
     /**

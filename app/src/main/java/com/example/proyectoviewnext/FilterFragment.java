@@ -111,7 +111,6 @@ public class FilterFragment extends Fragment {
         Log.d("deleteFilter", "deleteFilter");
         filter.resetFilter();
         loadValues(filter);
-        closeFragment();
     }
 
     /**
