@@ -12,10 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -54,6 +52,7 @@ public class FilterFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.d("debug","onCreateView()");
         // Rellenar el layout para este fragment
         View view = inflater.inflate(R.layout.fragment_filter, container, false);
         // Preparación del toolbar
@@ -73,6 +72,7 @@ public class FilterFragment extends Fragment {
      * @param view
      */
     public void setClickListeners(View view) {
+        Log.d("debug","setClickListeners()");
         // Obtener referencias a los elementos del diseño
         date_from_button = view.findViewById(R.id.date_from_button);
         date_until_button = view.findViewById(R.id.date_until_button);
@@ -94,7 +94,7 @@ public class FilterFragment extends Fragment {
      */
     private void applyFilter() {
         // TODO Implementar la aplicación del filtro
-        Log.d("applyFilter", "applyFilter");
+        Log.d("debug", "applyFilter()");
         filter.setDate_from(filter.getDate_from_temp());
         filter.setDate_until(filter.getDate_until_temp());
         filter.setPaid(paid.isChecked());
@@ -109,7 +109,7 @@ public class FilterFragment extends Fragment {
      * Borrado de todos los filtros
      */
     private void deleteFilter() {
-        Log.d("deleteFilter", "deleteFilter");
+        Log.d("debug", "deleteFilter()");
         filter.resetFilter();
         loadValues(filter);
     }
@@ -120,7 +120,7 @@ public class FilterFragment extends Fragment {
      * @param filter Objeto filter con la configuración del filtro a aplicar
      */
     private void loadValues(Filter filter) {
-        Log.d("filter", "loadValues");
+        Log.d("debug", "loadValues()");
         date_from_button.setText((filter.getDate_from() == null) ?
                 AppConstants.DATE_BUTTON :
                 dateFormat(filter.getDate_from()));
@@ -135,7 +135,8 @@ public class FilterFragment extends Fragment {
     }
 
     public String dateFormat(Date date) {
-        SimpleDateFormat new_format = new SimpleDateFormat("dd/MM/yyyy", new Locale("es", "ES"));
+        Log.d("debug","dateFormat()");
+        SimpleDateFormat new_format = new SimpleDateFormat(AppConstants.API_DATE_FORMAT, new Locale(AppConstants.API_DATE_LANGUAGE, AppConstants.API_DATE_COUNTRY));
         String new_date = new_format.format(date);
         return new_date;
     }
@@ -144,6 +145,7 @@ public class FilterFragment extends Fragment {
      * Cierra FilterFragment
      */
     private void closeFragment() {
+        Log.d("debug","closeFragment()");
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .remove(this)
@@ -156,7 +158,7 @@ public class FilterFragment extends Fragment {
      * @param msg Mensaje a mostrar por consola
      */
     private void filterLog(String msg) {
-        Log.d("filter", msg + " -> datefrom:" + filter.getDate_from() +
+        Log.d("debug", msg + " -> datefrom:" + filter.getDate_from() +
                 ", dateuntil:" + filter.getDate_until() +
                 ", datefromtemp:" + filter.getDate_from_temp() +
                 ", dateuntiltemp:" + filter.getDate_until_temp() +

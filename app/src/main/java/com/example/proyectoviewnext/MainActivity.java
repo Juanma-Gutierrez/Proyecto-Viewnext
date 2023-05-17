@@ -3,13 +3,10 @@ package com.example.proyectoviewnext;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.DatePickerDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -18,15 +15,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
-import java.util.zip.Inflater;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,13 +29,14 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Invoice> invoice_list; // Array donde se guardarán los elementos de la lista
 
     /**
-     * Este método se llama cuando se crea la activity por primera vez
+     * Se llama cuando se crea la activity por primera vez
      *
      * @param savedInstanceState Si la activity está siendo recreada, este bundle contiene los datos
      *                           previos almacenados
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("debug", "onCreate()");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.invoices_list);
         filter = new Filter();
@@ -50,13 +45,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Este método se llama cuando se crea el menú de opciones por primera vez
+     * Se llama cuando se crea el menú de opciones por primera vez
      *
      * @param menu El menú de opciones
      * @return True si el menú debe ser mostrado, falso en caso contrario
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        Log.d("debug", "onCreateOptionsMenu()");
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
         return true;
@@ -66,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
      * Inicializa la carga de datos de facturas
      */
     public void init() {
+        Log.d("debug", "init()");
         // Menu
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.invoices_list_title);
@@ -102,7 +99,9 @@ public class MainActivity extends AppCompatActivity {
      *
      * @param v La vista donde se hizo click
      */
+    //TODO REVISAR EL CAMBIO DE ESTE CÓDIGO A LISTENER
     public void onItemClick(View v) {
+        Log.d("debug", "onItemClick");
         AlertDialog.Builder alert_dialog = new AlertDialog.Builder(this);
         alert_dialog
                 .setTitle(R.string.alert_title)
@@ -120,10 +119,8 @@ public class MainActivity extends AppCompatActivity {
      */
     public void openFilter(MenuItem menu_item) {
         Log.d("debug", "openFilter()");
-        myLog("Open Filter");
         // Crear una instancia del FilterFragment
         FilterFragment filterFragment = new FilterFragment(filter);
-
         // Obtener el FragmentManager
         getSupportFragmentManager()
                 .beginTransaction()
@@ -200,8 +197,8 @@ public class MainActivity extends AppCompatActivity {
      */
     public String dateFormat(Date date) {
         SimpleDateFormat new_format = new SimpleDateFormat(AppConstants.API_DATE_FORMAT,
-                new Locale(AppConstants.API_DATE_LANGUAGE1,
-                        AppConstants.API_DATE_LANGUAGE2));
+                new Locale(AppConstants.API_DATE_LANGUAGE,
+                        AppConstants.API_DATE_COUNTRY));
         String new_date = new_format.format(date);
         return new_date;
     }
