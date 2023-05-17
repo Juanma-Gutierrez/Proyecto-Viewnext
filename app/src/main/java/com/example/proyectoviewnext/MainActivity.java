@@ -15,6 +15,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.SeekBar;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -42,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         filter = new Filter();
         // Cargamos los datos
         init();
+        setMaxAmount();
     }
 
     /**
@@ -77,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         invoice_list = new ArrayList<>();
-        invoice_list.add(new Invoice("12/10/2020", "Pendiente", 50.23));
+/*        invoice_list.add(new Invoice("12/10/2020", "Pendiente", 50.23));
         invoice_list.add(new Invoice("10/10/2020", "Pendiente", 30.10));
         invoice_list.add(new Invoice("8/10/2020", "Pagado", 5.75));
         invoice_list.add(new Invoice("6/10/2020", "", 125.50));
@@ -87,11 +90,25 @@ public class MainActivity extends AppCompatActivity {
         invoice_list.add(new Invoice("6/10/2020", "", 125.50));
         invoice_list.add(new Invoice("12/10/2020", "Pendiente", 50.23));
         invoice_list.add(new Invoice("10/10/2020", "Pendiente", 30.10));
-        invoice_list.add(new Invoice("8/10/2020", "Pagado", 5.75));
-        invoice_list.add(new Invoice("6/10/2020", "", 125.50));
+        invoice_list.add(new Invoice("8/10/2020", "Pagado", 5.75));*/
+        invoice_list.add(new Invoice("6/10/2020", "", 2584.99));
 
         InvoicesAdapter adapter = new InvoicesAdapter(invoice_list);
         recycler_view_list.setAdapter(adapter);
+    }
+
+    public void setMaxAmount() {
+        double max = Integer.MIN_VALUE;
+        for (Invoice i : invoice_list) {
+            if (i.getAmount() > max)
+                max = i.getAmount();
+        }
+        // Redondea el importe máximo en porciones indicadas por AMOUNT_PORTION, en este caso 50
+        int rounded_max = (int) (Math.floor((max + AppConstants.AMOUNT_PORTION) / AppConstants.AMOUNT_PORTION)) * AppConstants.AMOUNT_PORTION;
+        Toast.makeText(this, "max: " + rounded_max, Toast.LENGTH_SHORT).show();
+        Log.d("tester", "Máximo:" + rounded_max);
+        filter.setMax_amount(rounded_max);
+        filter.setAmount_selected(rounded_max);
     }
 
     /**
@@ -230,7 +247,7 @@ public class MainActivity extends AppCompatActivity {
                 ", dateuntil:" + filter.getDate_until() +
                 ", datefromtemp:" + filter.getDate_from_temp() +
                 ", dateuntiltemp:" + filter.getDate_until_temp() +
-                ", maxamount:" + filter.getMax_amount() +
+                ", maxamount:" + filter.getAmount_selected() +
                 ", paid:" + filter.isPaid() +
                 ", cancelled:" + filter.isCancelled() +
                 ", fixed_fee:" + filter.isFixed_fee() +

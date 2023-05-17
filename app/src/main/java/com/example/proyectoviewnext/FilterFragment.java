@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -24,7 +26,10 @@ public class FilterFragment extends Fragment {
     private Button filter_delete_filters_button;
     private Date date_from;
     private Date date_until;
-    private int max_amount;
+    private SeekBar amount_seekbar;
+    private int amount_seekbar_selected;
+    private TextView amount_max_title;
+    private TextView amount_max_selected;
     private CheckBox paid;
     private CheckBox cancelled;
     private CheckBox fixed_fee;
@@ -52,7 +57,7 @@ public class FilterFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.d("debug","onCreateView()");
+        Log.d("debug", "onCreateView()");
         // Rellenar el layout para este fragment
         View view = inflater.inflate(R.layout.fragment_filter, container, false);
         // Preparación del toolbar
@@ -61,10 +66,18 @@ public class FilterFragment extends Fragment {
         toolbar.setTitle(R.string.filter_fragment_title);
         // Asignación de listeners
         setClickListeners(view);
+        // Control de amount_seekbar
+        amountControl();
+        setAmountTitles();
         // Carga los valores de filter
         loadValues(filter);
         return view;
     }
+
+    private void setAmountTitles() {
+
+    }
+
 
     /**
      * Activa los listeners para todos los elementos de FilterFragment
@@ -72,12 +85,13 @@ public class FilterFragment extends Fragment {
      * @param view
      */
     public void setClickListeners(View view) {
-        Log.d("debug","setClickListeners()");
+        Log.d("debug", "setClickListeners()");
         // Obtener referencias a los elementos del diseño
         date_from_button = view.findViewById(R.id.date_from_button);
         date_until_button = view.findViewById(R.id.date_until_button);
-        // TODO falta implementar el resto de filtros
-        //max_amount = view.findViewById(R.id.filter_amount_max);
+        amount_seekbar = view.findViewById(R.id.filter_amount_seekbar);
+        amount_max_title = view.findViewById(R.id.filter_amount_max);
+        amount_max_selected = view.findViewById(R.id.filter_amount_max_selected);
         paid = view.findViewById(R.id.checkbox_paid);
         cancelled = view.findViewById(R.id.checkbox_cancelled);
         fixed_fee = view.findViewById(R.id.checkbox_fixed_fee);
@@ -93,8 +107,8 @@ public class FilterFragment extends Fragment {
      * Aplicar el filtro, graba en el objeto filter la configuración de FilterFragment
      */
     private void applyFilter() {
-        // TODO Implementar la aplicación del filtro
         Log.d("debug", "applyFilter()");
+        filter.setAmount_selected(amount_seekbar_selected);
         filter.setDate_from(filter.getDate_from_temp());
         filter.setDate_until(filter.getDate_until_temp());
         filter.setPaid(paid.isChecked());
@@ -127,6 +141,11 @@ public class FilterFragment extends Fragment {
         date_until_button.setText((filter.getDate_until() == null) ?
                 AppConstants.DATE_BUTTON :
                 dateFormat(filter.getDate_until()));
+
+        amount_seekbar.setMax((int) filter.getMax_amount());
+
+        amount_seekbar.setProgress(filter.getAmount_selected());
+        amount_max_title.setText(String.valueOf(filter.getMax_amount()) + " €");
         paid.setChecked(filter.isPaid());
         cancelled.setChecked(filter.isCancelled());
         fixed_fee.setChecked(filter.isFixed_fee());
@@ -135,7 +154,7 @@ public class FilterFragment extends Fragment {
     }
 
     public String dateFormat(Date date) {
-        Log.d("debug","dateFormat()");
+        Log.d("debug", "dateFormat()");
         SimpleDateFormat new_format = new SimpleDateFormat(AppConstants.API_DATE_FORMAT, new Locale(AppConstants.API_DATE_LANGUAGE, AppConstants.API_DATE_COUNTRY));
         String new_date = new_format.format(date);
         return new_date;
@@ -145,11 +164,31 @@ public class FilterFragment extends Fragment {
      * Cierra FilterFragment
      */
     private void closeFragment() {
-        Log.d("debug","closeFragment()");
+        Log.d("debug", "closeFragment()");
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .remove(this)
                 .commit();
+    }
+
+
+    public void amountControl() {
+        amount_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                amount_seekbar_selected = progress;
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                // Método requerido, pero no se necesita implementación específica aquí.
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                // Método requerido, pero no se necesita implementación específica aquí.
+            }
+        });
     }
 
     /**
@@ -162,7 +201,7 @@ public class FilterFragment extends Fragment {
                 ", dateuntil:" + filter.getDate_until() +
                 ", datefromtemp:" + filter.getDate_from_temp() +
                 ", dateuntiltemp:" + filter.getDate_until_temp() +
-                ", maxamount:" + filter.getMax_amount() +
+                ", maxamount:" + filter.getAmount_selected() +
                 ", paid:" + filter.isPaid() +
                 ", cancelled:" + filter.isCancelled() +
                 ", fixed_fee:" + filter.isFixed_fee() +

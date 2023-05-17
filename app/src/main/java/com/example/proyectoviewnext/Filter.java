@@ -7,7 +7,9 @@ public class Filter {
     private Date date_until;
     private Date date_from_temp;
     private Date date_until_temp;
-    private int max_amount;
+    private int amount_selected;
+
+    private double max_amount;
     private boolean paid;
     private boolean cancelled;
     private boolean fixed_fee;
@@ -17,7 +19,7 @@ public class Filter {
     public Filter() {
         this.date_from = null;
         this.date_until = null;
-        this.max_amount = getMax_amount();
+        this.amount_selected = getAmount_selected();
         this.paid = false;
         this.cancelled = false;
         this.fixed_fee = false;
@@ -41,12 +43,20 @@ public class Filter {
         this.date_until = date_until;
     }
 
-    public int getMax_amount() {
+    public double getMax_amount() {
         return max_amount;
     }
 
-    public void setMax_amount(int max_amount) {
+    public void setMax_amount(double max_amount) {
         this.max_amount = max_amount;
+    }
+
+    public int getAmount_selected() {
+        return amount_selected;
+    }
+
+    public void setAmount_selected(int amount_selected) {
+        this.amount_selected = amount_selected;
     }
 
     public boolean isPaid() {
@@ -110,7 +120,7 @@ public class Filter {
         this.date_from_temp = null;
         this.date_until = null;
         this.date_until_temp = null;
-        this.max_amount = getMax_amount();
+        this.amount_selected = getAmount_selected();
         this.paid = false;
         this.cancelled = false;
         this.fixed_fee = false;

@@ -185,6 +185,7 @@
         android:layout_marginHorizontal="@dimen/medium_space"
         android:layout_marginVertical="@dimen/small_space"
         android:progress="999"
+        android:max="100"
         android:progressBackgroundTint="@color/dark_grey"
         android:progressTint="@color/secondary"
         android:thumbTint="@color/secondary"
