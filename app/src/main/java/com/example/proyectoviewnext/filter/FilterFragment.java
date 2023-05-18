@@ -1,4 +1,4 @@
-package com.example.proyectoviewnext;
+package com.example.proyectoviewnext.filter;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -16,6 +16,10 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
+import com.example.proyectoviewnext.utils.AppConstants;
+import com.example.proyectoviewnext.invoice.Invoice;
+import com.example.proyectoviewnext.R;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

@@ -13,11 +13,14 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.SeekBar;
-import android.widget.Toast;
+
+import com.example.proyectoviewnext.filter.Filter;
+import com.example.proyectoviewnext.filter.FilterFragment;
+import com.example.proyectoviewnext.invoice.Invoice;
+import com.example.proyectoviewnext.invoice.InvoicesAdapter;
+import com.example.proyectoviewnext.utils.AppConstants;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

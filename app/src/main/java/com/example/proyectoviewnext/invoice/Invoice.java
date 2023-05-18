@@ -1,4 +1,4 @@
-package com.example.proyectoviewnext;
+package com.example.proyectoviewnext.invoice;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

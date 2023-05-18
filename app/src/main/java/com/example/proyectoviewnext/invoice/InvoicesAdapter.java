@@ -1,19 +1,16 @@
-package com.example.proyectoviewnext;
+package com.example.proyectoviewnext.invoice;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.w3c.dom.Text;
+import com.example.proyectoviewnext.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class InvoicesAdapter extends RecyclerView.Adapter<InvoicesAdapter.InvoicesViewHolder> {
     private ArrayList<Invoice> invoices_list;

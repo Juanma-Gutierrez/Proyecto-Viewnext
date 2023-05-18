@@ -1,4 +1,4 @@
-package com.example.proyectoviewnext;
+package com.example.proyectoviewnext.filter;
 
 import java.util.Date;
 
