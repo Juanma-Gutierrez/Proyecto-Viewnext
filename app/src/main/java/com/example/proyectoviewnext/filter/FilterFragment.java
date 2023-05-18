@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -78,14 +79,9 @@ public class FilterFragment extends Fragment {
         setClickListeners(view);
         // Control de amount_seekbar
         amountControl();
-        setAmountTitles();
         // Carga los valores de filter
         loadValues(filter);
         return view;
-    }
-
-    private void setAmountTitles() {
-
     }
 
 
@@ -162,12 +158,17 @@ public class FilterFragment extends Fragment {
             if (filter.isPayment_plan()) {
                 status.add(getActivity().getApplicationContext().getString(R.string.filter_fragment_status_payment_plan));
             }
-            match = (match && status.contains(i.getStatus())||(match&&status.isEmpty()));
+            match = (match && status.contains(i.getStatus()) || (match && status.isEmpty()));
 
             // Comprobar el match para añadir a filtered_list
             if (match) {
                 filtered_list.add(i);
             }
+        }
+        if (filtered_list.size() == 0) {
+            getActivity().findViewById(R.id.filter_none_invoices_info).setVisibility(View.VISIBLE);
+        }else{
+            getActivity().findViewById(R.id.filter_none_invoices_info).setVisibility(View.GONE);
         }
         Log.d("aplicandoFiltro", String.valueOf(filtered_list.size()));
     }

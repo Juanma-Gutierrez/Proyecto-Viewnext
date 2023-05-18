@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements FilterFragment.On
         invoice_list.add(new Invoice("06/05/2023", "Plan de pago", 125.50));
         invoice_list.add(new Invoice("05/05/2023", "Pendiente de pago", 50.23));
         invoice_list.add(new Invoice("01/04/2023", "Pagada", 30.10));
-        invoice_list.add(new Invoice("30/04/2023", "Anulada", 5.75));
+        invoice_list.add(new Invoice("30/04/2023", "Pagada", 5.75));
         invoice_list.add(new Invoice("22/04/2023", "Plan de pago", 125.50));
         invoice_list.add(new Invoice("12/04/2023", "", 50.23));
         invoice_list.add(new Invoice("10/04/2023", "", 30.10));
