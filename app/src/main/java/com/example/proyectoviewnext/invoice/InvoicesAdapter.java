@@ -13,24 +13,24 @@ import com.example.proyectoviewnext.R;
 import java.util.ArrayList;
 
 public class InvoicesAdapter extends RecyclerView.Adapter<InvoicesAdapter.InvoicesViewHolder> {
-    private ArrayList<Invoice> invoices_list;
+    private ArrayList<Invoice> invoicesList;
 
     /**
      * Inicializa el adaptador InvoicesAdapter
      *
-     * @param invoices_list Lista de facturas
+     * @param invoicesList Lista de facturas
      */
-    public InvoicesAdapter(ArrayList<Invoice> invoices_list) {
-        this.invoices_list = invoices_list;
+    public InvoicesAdapter(ArrayList<Invoice> invoicesList) {
+        this.invoicesList = invoicesList;
     }
 
     /**
      * Configura la lista de facturas invoices
      *
-     * @param invoices_list Lista de facturas
+     * @param invoicesList Lista de facturas
      */
-    public void setInvoices_list(ArrayList<Invoice> invoices_list) {
-        this.invoices_list = invoices_list;
+    public void setInvoicesList(ArrayList<Invoice> invoicesList) {
+        this.invoicesList = invoicesList;
         notifyDataSetChanged();
     }
 
@@ -58,23 +58,23 @@ public class InvoicesAdapter extends RecyclerView.Adapter<InvoicesAdapter.Invoic
      */
     @Override
     public void onBindViewHolder(@NonNull InvoicesViewHolder holder, int position) {
-            Invoice invoice = invoices_list.get(position);
-            holder.getText_view_date().setText(invoice.getDate());
-            holder.getText_view_status().setText(invoice.getStatus());
-            holder.getText_view_amount().setText(String.format("%.2f €", invoice.getAmount()));
+            Invoice invoice = invoicesList.get(position);
+            holder.getTextViewDate().setText(invoice.getDate());
+            holder.getTextViewStatus().setText(invoice.getStatus());
+            holder.getTextViewAmount().setText(String.format("%.2f €", invoice.getAmount()));
 
     }
 
     // Devuelve el contador de elementos de la vista
     @Override
     public int getItemCount() {
-        return invoices_list.size();
+        return invoicesList.size();
     }
 
     public class InvoicesViewHolder extends RecyclerView.ViewHolder {
-        private TextView text_view_date;
-        private TextView text_view_status;
-        private TextView text_view_amount;
+        private TextView textViewDate;
+        private TextView textViewStatus;
+        private TextView textViewAmount;
 
         /**
          * Inicializa los atributos text_view_date, text_view_status y text_view_amount
@@ -84,21 +84,21 @@ public class InvoicesAdapter extends RecyclerView.Adapter<InvoicesAdapter.Invoic
          */
         public InvoicesViewHolder(@NonNull View v) {
             super(v);
-            this.text_view_date = (TextView) v.findViewById(R.id.invoice_date);
-            this.text_view_status = (TextView) v.findViewById(R.id.invoice_status);
-            this.text_view_amount = (TextView) v.findViewById(R.id.invoice_amount);
+            this.textViewDate = (TextView) v.findViewById(R.id.invoice_date);
+            this.textViewStatus = (TextView) v.findViewById(R.id.invoice_status);
+            this.textViewAmount = (TextView) v.findViewById(R.id.invoice_amount);
         }
 
-        public TextView getText_view_date() {
-            return text_view_date;
+        public TextView getTextViewDate() {
+            return textViewDate;
         }
 
-        public TextView getText_view_status() {
-            return text_view_status;
+        public TextView getTextViewStatus() {
+            return textViewStatus;
         }
 
-        public TextView getText_view_amount() {
-            return text_view_amount;
+        public TextView getTextViewAmount() {
+            return textViewAmount;
         }
     }
 }

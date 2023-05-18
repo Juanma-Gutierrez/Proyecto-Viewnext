@@ -3,60 +3,60 @@ package com.example.proyectoviewnext.filter;
 import java.util.Date;
 
 public class Filter {
-    private Date date_from;
-    private Date date_until;
-    private Date date_from_temp;
-    private Date date_until_temp;
-    private int amount_selected;
+    private Date dateFrom;
+    private Date dateUntil;
+    private Date dateFromTemp;
+    private Date dateUntilTemp;
+    private int amountSelected;
 
-    private double max_amount;
+    private double maxAmount;
     private boolean paid;
     private boolean cancelled;
-    private boolean fixed_fee;
-    private boolean pending_payment;
-    private boolean payment_plan;
+    private boolean fixedFee;
+    private boolean pendingPayment;
+    private boolean paymentPlan;
 
     public Filter() {
-        this.date_from = null;
-        this.date_until = null;
-        this.amount_selected = getAmount_selected();
+        this.dateFrom = null;
+        this.dateUntil = null;
+        this.amountSelected = getAmountSelected();
         this.paid = false;
         this.cancelled = false;
-        this.fixed_fee = false;
-        this.pending_payment = false;
-        this.payment_plan = false;
+        this.fixedFee = false;
+        this.pendingPayment = false;
+        this.paymentPlan = false;
     }
 
-    public Date getDate_from() {
-        return date_from;
+    public Date getDateFrom() {
+        return dateFrom;
     }
 
-    public void setDate_from(Date date_from) {
-        this.date_from = date_from;
+    public void setDateFrom(Date dateFrom) {
+        this.dateFrom = dateFrom;
     }
 
-    public Date getDate_until() {
-        return date_until;
+    public Date getDateUntil() {
+        return dateUntil;
     }
 
-    public void setDate_until(Date date_until) {
-        this.date_until = date_until;
+    public void setDateUntil(Date dateUntil) {
+        this.dateUntil = dateUntil;
     }
 
-    public double getMax_amount() {
-        return max_amount;
+    public double getMaxAmount() {
+        return maxAmount;
     }
 
-    public void setMax_amount(double max_amount) {
-        this.max_amount = max_amount;
+    public void setMaxAmount(double maxAmount) {
+        this.maxAmount = maxAmount;
     }
 
-    public int getAmount_selected() {
-        return amount_selected;
+    public int getAmountSelected() {
+        return amountSelected;
     }
 
-    public void setAmount_selected(int amount_selected) {
-        this.amount_selected = amount_selected;
+    public void setAmountSelected(int amountSelected) {
+        this.amountSelected = amountSelected;
     }
 
     public boolean isPaid() {
@@ -75,56 +75,56 @@ public class Filter {
         this.cancelled = cancelled;
     }
 
-    public boolean isFixed_fee() {
-        return fixed_fee;
+    public boolean isFixedFee() {
+        return fixedFee;
     }
 
-    public void setFixed_fee(boolean fixed_fee) {
-        this.fixed_fee = fixed_fee;
+    public void setFixedFee(boolean fixedFee) {
+        this.fixedFee = fixedFee;
     }
 
-    public boolean isPending_payment() {
-        return pending_payment;
+    public boolean isPendingPayment() {
+        return pendingPayment;
     }
 
-    public void setPending_payment(boolean pending_payment) {
-        this.pending_payment = pending_payment;
+    public void setPendingPayment(boolean pendingPayment) {
+        this.pendingPayment = pendingPayment;
     }
 
-    public boolean isPayment_plan() {
-        return payment_plan;
+    public boolean isPaymentPlan() {
+        return paymentPlan;
     }
 
-    public void setPayment_plan(boolean payment_plan) {
-        this.payment_plan = payment_plan;
+    public void setPaymentPlan(boolean paymentPlan) {
+        this.paymentPlan = paymentPlan;
     }
 
-    public Date getDate_from_temp() {
-        return date_from_temp;
+    public Date getDateFromTemp() {
+        return dateFromTemp;
     }
 
-    public void setDate_from_temp(Date date_from_temp) {
-        this.date_from_temp = date_from_temp;
+    public void setDateFromTemp(Date dateFromTemp) {
+        this.dateFromTemp = dateFromTemp;
     }
 
-    public Date getDate_until_temp() {
-        return date_until_temp;
+    public Date getDateUntilTemp() {
+        return dateUntilTemp;
     }
 
-    public void setDate_until_temp(Date date_until_temp) {
-        this.date_until_temp = date_until_temp;
+    public void setDateUntilTemp(Date dateUntilTemp) {
+        this.dateUntilTemp = dateUntilTemp;
     }
 
     public void resetFilter() {
-        this.date_from = null;
-        this.date_from_temp = null;
-        this.date_until = null;
-        this.date_until_temp = null;
-        this.amount_selected = (int) getMax_amount();
+        this.dateFrom = null;
+        this.dateFromTemp = null;
+        this.dateUntil = null;
+        this.dateUntilTemp = null;
+        this.amountSelected = (int) getMaxAmount();
         this.paid = false;
         this.cancelled = false;
-        this.fixed_fee = false;
-        this.pending_payment = false;
-        this.payment_plan = false;
+        this.fixedFee = false;
+        this.pendingPayment = false;
+        this.paymentPlan = false;
     }
 }

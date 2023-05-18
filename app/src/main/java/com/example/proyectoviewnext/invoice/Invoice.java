@@ -20,14 +20,14 @@ public class Invoice {
     }
 
     public Date getDateAsDate() {
-        Date new_date = null;
+        Date newDate = null;
         try {
             SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-            new_date = format.parse(date);
+            newDate = format.parse(date);
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        return new_date;
+        return newDate;
     }
 
     public void setDate(String date) {

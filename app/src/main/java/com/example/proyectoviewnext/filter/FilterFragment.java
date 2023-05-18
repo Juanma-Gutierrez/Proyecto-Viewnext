@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -28,31 +27,27 @@ import java.util.Date;
 import java.util.Locale;
 
 public class FilterFragment extends Fragment {
-    private Button date_from_button;
-    private Button date_until_button;
-    private Button filter_apply_button;
-    private Button filter_delete_filters_button;
-    private Date date_from;
-    private Date date_until;
-    private SeekBar amount_seekbar;
-    private int amount_seekbar_selected;
-    private TextView amount_max_title;
-    private TextView amount_max_selected;
+    private Button dateFromButton;
+    private Button dateUntilButton;
+    private SeekBar amountSeekbar;
+    private int amountSeekbarSelected;
+    private TextView amountMaxTitle;
+    private TextView amountMaxSelected;
     private CheckBox paid;
     private CheckBox cancelled;
-    private CheckBox fixed_fee;
-    private CheckBox pending_payment;
-    private CheckBox payment_plan;
-    private Button delete_filter;
-    private Button apply_filter;
+    private CheckBox fixedFee;
+    private CheckBox pendingPayment;
+    private CheckBox paymentPlan;
+    private Button deleteFilter;
+    private Button applyFilter;
     private Filter filter;
     private OnButtonClickListener buttonClickListener;
-    private ArrayList<Invoice> invoices_list; // Lista de facturas
-    private ArrayList<Invoice> filtered_list; // Lista filtrada de facturas
+    private ArrayList<Invoice> invoicesList; // Lista de facturas
+    private ArrayList<Invoice> filteredList; // Lista filtrada de facturas
 
-    public FilterFragment(Filter filter, ArrayList<Invoice> invoices_list) {
+    public FilterFragment(Filter filter, ArrayList<Invoice> invoicesList) {
         this.filter = filter;
-        this.invoices_list = invoices_list;
+        this.invoicesList = invoicesList;
     }
 
     /**
@@ -68,7 +63,6 @@ public class FilterFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.d("debug", "onCreateView()");
         // Rellenar el layout para este fragment
         View view = inflater.inflate(R.layout.fragment_filter, container, false);
         // Preparación del toolbar
@@ -91,56 +85,58 @@ public class FilterFragment extends Fragment {
      * @param view
      */
     public void setClickListeners(View view) {
-        Log.d("debug", "setClickListeners()");
         // Obtener referencias a los elementos del diseño
-        date_from_button = view.findViewById(R.id.date_from_button);
-        date_until_button = view.findViewById(R.id.date_until_button);
-        amount_seekbar = view.findViewById(R.id.filter_amount_seekbar);
-        amount_max_title = view.findViewById(R.id.filter_amount_max);
-        amount_max_selected = view.findViewById(R.id.filter_amount_max_selected);
+        dateFromButton = view.findViewById(R.id.date_from_button);
+        dateUntilButton = view.findViewById(R.id.date_until_button);
+        amountSeekbar = view.findViewById(R.id.filter_amount_seekbar);
+        amountMaxTitle = view.findViewById(R.id.filter_amount_max);
+        amountMaxSelected = view.findViewById(R.id.filter_amount_max_selected);
         paid = view.findViewById(R.id.checkbox_paid);
         cancelled = view.findViewById(R.id.checkbox_cancelled);
-        fixed_fee = view.findViewById(R.id.checkbox_fixed_fee);
-        pending_payment = view.findViewById(R.id.checkbox_pending_payment);
-        payment_plan = view.findViewById(R.id.checkbox_payment_plan);
-        delete_filter = view.findViewById(R.id.filter_delete_filters_button);
-        apply_filter = view.findViewById(R.id.filter_apply_button);
-        delete_filter.setOnClickListener(v -> deleteFilter());
-        apply_filter.setOnClickListener(v -> applyFilter());
+        fixedFee = view.findViewById(R.id.checkbox_fixed_fee);
+        pendingPayment = view.findViewById(R.id.checkbox_pending_payment);
+        paymentPlan = view.findViewById(R.id.checkbox_payment_plan);
+        deleteFilter = view.findViewById(R.id.filter_delete_filters_button);
+        applyFilter = view.findViewById(R.id.filter_apply_button);
+        deleteFilter.setOnClickListener(v -> deleteFilter());
+        applyFilter.setOnClickListener(v -> applyFilter());
     }
 
     /**
      * Aplicar el filtro, graba en el objeto filter la configuración de FilterFragment
      */
     private void applyFilter() {
-        Log.d("debug", "applyFilter()");
-        filter.setAmount_selected(amount_seekbar_selected);
-        filter.setDate_from(filter.getDate_from_temp());
-        filter.setDate_until(filter.getDate_until_temp());
+        filter.setAmountSelected(amountSeekbarSelected);
+        filter.setDateFrom(filter.getDateFromTemp());
+        filter.setDateUntil(filter.getDateUntilTemp());
         filter.setPaid(paid.isChecked());
         filter.setCancelled(cancelled.isChecked());
-        filter.setFixed_fee(fixed_fee.isChecked());
-        filter.setPending_payment(pending_payment.isChecked());
-        filter.setPayment_plan(payment_plan.isChecked());
+        filter.setFixedFee(fixedFee.isChecked());
+        filter.setPendingPayment(pendingPayment.isChecked());
+        filter.setPaymentPlan(paymentPlan.isChecked());
         // hacer el filtrado total
-        filtered_list = new ArrayList<Invoice>();
-        applyFilterToInvoicesList(filtered_list);
+        filteredList = new ArrayList<Invoice>();
+        applyFilterToInvoicesList(filteredList);
         if (buttonClickListener != null) {
-            buttonClickListener.onButtonClicked(filtered_list);
+            buttonClickListener.onButtonClicked(filteredList);
         }
         closeFragment();
     }
 
+    /**
+     * Aplica el filtro a filtered_list y añade cada elemento que cumple el filtro pasado
+     *
+     * @param filtered_list Lista filtrada donde añadir los elementos que cumplan el filtro
+     */
     private void applyFilterToInvoicesList(ArrayList<Invoice> filtered_list) {
-        for (Invoice i : invoices_list) {
+        for (Invoice i : invoicesList) {
             boolean match = true;
-
             // Chequea fecha de factura
-            if ((filter.getDate_from() != null && i.getDateAsDate().before(filter.getDate_from())) || (filter.getDate_until() != null && i.getDateAsDate().after(filter.getDate_until()))) {
+            if ((filter.getDateFrom() != null && i.getDateAsDate().before(filter.getDateFrom())) || (filter.getDateUntil() != null && i.getDateAsDate().after(filter.getDateUntil()))) {
                 match = false;
             }
             // Chequea importe de factura
-            match = match && i.getAmount() <= filter.getAmount_selected();
+            match = match && i.getAmount() <= filter.getAmountSelected();
             // Chequea estado de la factura
             ArrayList<String> status = new ArrayList<>();
             if (filter.isPaid()) {
@@ -149,13 +145,13 @@ public class FilterFragment extends Fragment {
             if (filter.isCancelled()) {
                 status.add(getActivity().getApplicationContext().getString(R.string.filter_fragment_cancelled));
             }
-            if (filter.isFixed_fee()) {
+            if (filter.isFixedFee()) {
                 status.add(getActivity().getApplicationContext().getString(R.string.filter_fragment_fixed_fee));
             }
-            if (filter.isPending_payment()) {
+            if (filter.isPendingPayment()) {
                 status.add(getActivity().getApplicationContext().getString(R.string.filter_fragment_pending_payment));
             }
-            if (filter.isPayment_plan()) {
+            if (filter.isPaymentPlan()) {
                 status.add(getActivity().getApplicationContext().getString(R.string.filter_fragment_status_payment_plan));
             }
             match = (match && status.contains(i.getStatus()) || (match && status.isEmpty()));
@@ -167,17 +163,15 @@ public class FilterFragment extends Fragment {
         }
         if (filtered_list.size() == 0) {
             getActivity().findViewById(R.id.filter_none_invoices_info).setVisibility(View.VISIBLE);
-        }else{
+        } else {
             getActivity().findViewById(R.id.filter_none_invoices_info).setVisibility(View.GONE);
         }
-        Log.d("aplicandoFiltro", String.valueOf(filtered_list.size()));
     }
 
     /**
      * Borrado de todos los filtros
      */
     private void deleteFilter() {
-        Log.d("debug", "deleteFilter()");
         filter.resetFilter();
         loadValues(filter);
     }
@@ -188,25 +182,29 @@ public class FilterFragment extends Fragment {
      * @param filter Objeto filter con la configuración del filtro a aplicar
      */
     private void loadValues(Filter filter) {
-        Log.d("debug", "loadValues()");
-        date_from_button.setText((filter.getDate_from() == null) ?
+        dateFromButton.setText((filter.getDateFrom() == null) ?
                 AppConstants.DATE_BUTTON :
-                dateFormat(filter.getDate_from()));
-        date_until_button.setText((filter.getDate_until() == null) ?
+                dateFormat(filter.getDateFrom()));
+        dateUntilButton.setText((filter.getDateUntil() == null) ?
                 AppConstants.DATE_BUTTON :
-                dateFormat(filter.getDate_until()));
-        amount_seekbar.setMax((int) filter.getMax_amount());
-        amount_seekbar.setProgress(filter.getAmount_selected());
-        amount_max_title.setText(String.valueOf(filter.getMax_amount()) + " €");
+                dateFormat(filter.getDateUntil()));
+        amountSeekbar.setMax((int) filter.getMaxAmount());
+        amountSeekbar.setProgress(filter.getAmountSelected());
+        amountMaxTitle.setText(String.valueOf(filter.getMaxAmount()) + " €");
         paid.setChecked(filter.isPaid());
         cancelled.setChecked(filter.isCancelled());
-        fixed_fee.setChecked(filter.isFixed_fee());
-        pending_payment.setChecked(filter.isPending_payment());
-        payment_plan.setChecked(filter.isPayment_plan());
+        fixedFee.setChecked(filter.isFixedFee());
+        pendingPayment.setChecked(filter.isPendingPayment());
+        paymentPlan.setChecked(filter.isPaymentPlan());
     }
 
+    /**
+     * Aplica el formato de fecha
+     *
+     * @param date Fecha a la que aplicar el formato
+     * @return
+     */
     public String dateFormat(Date date) {
-        Log.d("debug", "dateFormat()");
         SimpleDateFormat new_format = new SimpleDateFormat(AppConstants.API_DATE_FORMAT, new Locale(AppConstants.API_DATE_LANGUAGE, AppConstants.API_DATE_COUNTRY));
         String new_date = new_format.format(date);
         return new_date;
@@ -216,20 +214,21 @@ public class FilterFragment extends Fragment {
      * Cierra FilterFragment
      */
     private void closeFragment() {
-        Log.d("debug", "closeFragment()");
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .remove(this)
                 .commit();
     }
 
-
+    /**
+     * Control de la seekbar de importe de factura
+     */
     public void amountControl() {
-        amount_seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        amountSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                amount_seekbar_selected = progress;
-                amount_max_selected.setText(String.valueOf(progress) + " €");
+                amountSeekbarSelected = progress;
+                amountMaxSelected.setText(String.valueOf(progress) + " €");
             }
 
             @Override
@@ -242,24 +241,6 @@ public class FilterFragment extends Fragment {
                 // Método requerido, pero no se necesita implementación específica aquí.
             }
         });
-    }
-
-    /**
-     * Log con información del objeto filtro
-     *
-     * @param msg Mensaje a mostrar por consola
-     */
-    private void filterLog(String msg) {
-        Log.d("debug", msg + " -> datefrom:" + filter.getDate_from() +
-                ", dateuntil:" + filter.getDate_until() +
-                ", datefromtemp:" + filter.getDate_from_temp() +
-                ", dateuntiltemp:" + filter.getDate_until_temp() +
-                ", maxamount:" + filter.getAmount_selected() +
-                ", paid:" + filter.isPaid() +
-                ", cancelled:" + filter.isCancelled() +
-                ", fixed_fee:" + filter.isFixed_fee() +
-                ", pending_payment:" + filter.isPending_payment() +
-                ", payment_plan:" + filter.isPayment_plan());
     }
 
     public interface OnButtonClickListener {
@@ -281,7 +262,6 @@ public class FilterFragment extends Fragment {
         super.onDetach();
         buttonClickListener = null;
     }
-
 }
 
 
