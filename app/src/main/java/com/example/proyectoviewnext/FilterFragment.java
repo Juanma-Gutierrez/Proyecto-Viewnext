@@ -134,6 +134,7 @@ public class FilterFragment extends Fragment {
     private void applyFilterToInvoicesList(ArrayList<Invoice> filtered_list) {
         for (Invoice i : invoices_list) {
             boolean match = true;
+
             // Chequea fecha de factura
             if ((filter.getDate_from() != null && i.getDateAsDate().before(filter.getDate_from())) || (filter.getDate_until() != null && i.getDateAsDate().after(filter.getDate_until()))) {
                 match = false;
@@ -157,7 +158,7 @@ public class FilterFragment extends Fragment {
             if (filter.isPayment_plan()) {
                 status.add(getActivity().getApplicationContext().getString(R.string.filter_fragment_status_payment_plan));
             }
-            match = match && status.contains(i.getStatus());
+            match = (match && status.contains(i.getStatus())||(match&&status.isEmpty()));
 
             // Comprobar el match para añadir a filtered_list
             if (match) {

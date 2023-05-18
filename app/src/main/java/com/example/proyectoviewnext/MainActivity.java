@@ -82,18 +82,18 @@ public class MainActivity extends AppCompatActivity implements FilterFragment.On
         }
 
         invoice_list = new ArrayList<>();
-        invoice_list.add(new Invoice("12/10/2023", "Pagada", 50.23));
-        invoice_list.add(new Invoice("10/10/2023", "Cuota Fija", 30.10));
-        invoice_list.add(new Invoice("08/10/2023", "Pagada", 5.75));
-        invoice_list.add(new Invoice("06/10/2023", "Plan de pago", 125.50));
-        invoice_list.add(new Invoice("05/10/2023", "Pendiente de pago", 50.23));
-        invoice_list.add(new Invoice("01/10/2023", "Pagada", 30.10));
-        invoice_list.add(new Invoice("30/09/2023", "Anulada", 5.75));
-        invoice_list.add(new Invoice("22/09/2023", "Plan de pago", 125.50));
-        invoice_list.add(new Invoice("12/09/2023", "", 50.23));
-        invoice_list.add(new Invoice("10/09/2023", "", 30.10));
-        invoice_list.add(new Invoice("08/09/2023", "", 5.75));
-        invoice_list.add(new Invoice("06/09/2023", "", 184.99));
+        invoice_list.add(new Invoice("12/05/2023", "Pagada", 50.23));
+        invoice_list.add(new Invoice("10/05/2023", "Cuota Fija", 30.10));
+        invoice_list.add(new Invoice("08/05/2023", "Pagada", 5.75));
+        invoice_list.add(new Invoice("06/05/2023", "Plan de pago", 125.50));
+        invoice_list.add(new Invoice("05/05/2023", "Pendiente de pago", 50.23));
+        invoice_list.add(new Invoice("01/04/2023", "Pagada", 30.10));
+        invoice_list.add(new Invoice("30/04/2023", "Anulada", 5.75));
+        invoice_list.add(new Invoice("22/04/2023", "Plan de pago", 125.50));
+        invoice_list.add(new Invoice("12/04/2023", "", 50.23));
+        invoice_list.add(new Invoice("10/04/2023", "", 30.10));
+        invoice_list.add(new Invoice("08/04/2023", "", 5.75));
+        invoice_list.add(new Invoice("06/04/2023", "", 184.99));
 
         adapter = new InvoicesAdapter(invoice_list);
         recycler_view_list.setAdapter(adapter);
