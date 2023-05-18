@@ -34,6 +34,7 @@ public class InvoicesAdapter extends RecyclerView.Adapter<InvoicesAdapter.Invoic
      */
     public void setInvoices_list(ArrayList<Invoice> invoices_list) {
         this.invoices_list = invoices_list;
+        notifyDataSetChanged();
     }
 
     /**

@@ -224,65 +224,65 @@
         android:layout_marginHorizontal="@dimen/medium_space"
         android:layout_marginVertical="@dimen/medium_space"
         android:checked="false"
-        android:text="@string/filter_fragment_status_option1"
+        android:text="@string/filter_fragment_paid"
         app:buttonTint="@color/dark_grey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/filter_status_title"
-        tools:text="@string/filter_fragment_status_option1" />
+        tools:text="@string/filter_fragment_paid" />
 
     <CheckBox
         android:id="@+id/checkbox_cancelled"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/medium_space"
-        android:text="@string/filter_fragment_status_option2"
+        android:text="@string/filter_fragment_cancelled"
         app:buttonTint="@color/dark_grey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/checkbox_paid"
-        tools:text="@string/filter_fragment_status_option2" />
+        tools:text="@string/filter_fragment_cancelled" />
 
     <CheckBox
         android:id="@+id/checkbox_fixed_fee"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/medium_space"
-        android:text="@string/filter_fragment_status_option3"
+        android:text="@string/filter_fragment_fixed_fee"
         app:buttonTint="@color/dark_grey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/checkbox_cancelled"
-        tools:text="@string/filter_fragment_status_option3" />
+        tools:text="@string/filter_fragment_fixed_fee" />
 
     <CheckBox
         android:id="@+id/checkbox_pending_payment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/medium_space"
-        android:text="@string/filter_fragment_status_option4"
+        android:text="@string/filter_fragment_pending_payment"
         app:buttonTint="@color/dark_grey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/checkbox_fixed_fee"
-        tools:text="@string/filter_fragment_status_option4" />
+        tools:text="@string/filter_fragment_pending_payment" />
 
     <CheckBox
         android:id="@+id/checkbox_payment_plan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/medium_space"
-        android:text="@string/filter_fragment_status_option5"
+        android:text="@string/filter_fragment_status_payment_plan"
         app:buttonTint="@color/dark_grey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/checkbox_pending_payment"
-        tools:text="@string/filter_fragment_status_option5" />
+        tools:text="@string/filter_fragment_status_payment_plan" />
 
     <View
         android:id="@+id/filter_divider_status"

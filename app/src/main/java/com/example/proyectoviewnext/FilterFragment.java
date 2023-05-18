@@ -1,7 +1,9 @@
 package com.example.proyectoviewnext;
 
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -16,6 +18,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
@@ -38,10 +41,13 @@ public class FilterFragment extends Fragment {
     private Button delete_filter;
     private Button apply_filter;
     private Filter filter;
+    private OnButtonClickListener buttonClickListener;
+    private ArrayList<Invoice> invoices_list; // Lista de facturas
+    private ArrayList<Invoice> filtered_list; // Lista filtrada de facturas
 
-
-    public FilterFragment(Filter filter) {
+    public FilterFragment(Filter filter, ArrayList<Invoice> invoices_list) {
         this.filter = filter;
+        this.invoices_list = invoices_list;
     }
 
     /**
@@ -116,7 +122,49 @@ public class FilterFragment extends Fragment {
         filter.setFixed_fee(fixed_fee.isChecked());
         filter.setPending_payment(pending_payment.isChecked());
         filter.setPayment_plan(payment_plan.isChecked());
+        // hacer el filtrado total
+        filtered_list = new ArrayList<Invoice>();
+        applyFilterToInvoicesList(filtered_list);
+        if (buttonClickListener != null) {
+            buttonClickListener.onButtonClicked(filtered_list);
+        }
         closeFragment();
+    }
+
+    private void applyFilterToInvoicesList(ArrayList<Invoice> filtered_list) {
+        for (Invoice i : invoices_list) {
+            boolean match = true;
+            // Chequea fecha de factura
+            if ((filter.getDate_from() != null && i.getDateAsDate().before(filter.getDate_from())) || (filter.getDate_until() != null && i.getDateAsDate().after(filter.getDate_until()))) {
+                match = false;
+            }
+            // Chequea importe de factura
+            match = match && i.getAmount() <= filter.getAmount_selected();
+            // Chequea estado de la factura
+            ArrayList<String> status = new ArrayList<>();
+            if (filter.isPaid()) {
+                status.add(getActivity().getApplicationContext().getString(R.string.filter_fragment_paid));
+            }
+            if (filter.isCancelled()) {
+                status.add(getActivity().getApplicationContext().getString(R.string.filter_fragment_cancelled));
+            }
+            if (filter.isFixed_fee()) {
+                status.add(getActivity().getApplicationContext().getString(R.string.filter_fragment_fixed_fee));
+            }
+            if (filter.isPending_payment()) {
+                status.add(getActivity().getApplicationContext().getString(R.string.filter_fragment_pending_payment));
+            }
+            if (filter.isPayment_plan()) {
+                status.add(getActivity().getApplicationContext().getString(R.string.filter_fragment_status_payment_plan));
+            }
+            match = match && status.contains(i.getStatus());
+
+            // Comprobar el match para añadir a filtered_list
+            if (match) {
+                filtered_list.add(i);
+            }
+        }
+        Log.d("aplicandoFiltro", String.valueOf(filtered_list.size()));
     }
 
     /**
@@ -175,7 +223,7 @@ public class FilterFragment extends Fragment {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 amount_seekbar_selected = progress;
-                amount_max_selected.setText(String.valueOf(progress)+" €");
+                amount_max_selected.setText(String.valueOf(progress) + " €");
             }
 
             @Override
@@ -207,4 +255,27 @@ public class FilterFragment extends Fragment {
                 ", pending_payment:" + filter.isPending_payment() +
                 ", payment_plan:" + filter.isPayment_plan());
     }
+
+    public interface OnButtonClickListener {
+        void onButtonClicked(ArrayList<Invoice> invoices);
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        try {
+            buttonClickListener = (OnButtonClickListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + " debe implementar OnButtonClickListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        buttonClickListener = null;
+    }
+
 }
+
+

@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.SeekBar;
@@ -24,11 +25,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements FilterFragment.OnButtonClickListener {
 
     private Filter filter;
     private RecyclerView recycler_view_list; // Vista donde se cargan las facturas
     private ArrayList<Invoice> invoice_list; // Array donde se guardarán los elementos de la lista
+    private InvoicesAdapter adapter;
 
     /**
      * Se llama cuando se crea la activity por primera vez
@@ -80,20 +82,20 @@ public class MainActivity extends AppCompatActivity {
         }
 
         invoice_list = new ArrayList<>();
-        invoice_list.add(new Invoice("12/10/2020", "Pendiente", 50.23));
-        invoice_list.add(new Invoice("10/10/2020", "Pendiente", 30.10));
-        invoice_list.add(new Invoice("8/10/2020", "Pagado", 5.75));
-        invoice_list.add(new Invoice("6/10/2020", "", 125.50));
-        invoice_list.add(new Invoice("12/10/2020", "Pendiente", 50.23));
-        invoice_list.add(new Invoice("10/10/2020", "Pendiente", 30.10));
-        invoice_list.add(new Invoice("8/10/2020", "Pagado", 5.75));
-        invoice_list.add(new Invoice("6/10/2020", "", 125.50));
-        invoice_list.add(new Invoice("12/10/2020", "Pendiente", 50.23));
-        invoice_list.add(new Invoice("10/10/2020", "Pendiente", 30.10));
-        invoice_list.add(new Invoice("8/10/2020", "Pagado", 5.75));
-        invoice_list.add(new Invoice("6/10/2020", "", 184.99));
+        invoice_list.add(new Invoice("12/10/2023", "Pagada", 50.23));
+        invoice_list.add(new Invoice("10/10/2023", "Cuota Fija", 30.10));
+        invoice_list.add(new Invoice("08/10/2023", "Pagada", 5.75));
+        invoice_list.add(new Invoice("06/10/2023", "Plan de pago", 125.50));
+        invoice_list.add(new Invoice("05/10/2023", "Pendiente de pago", 50.23));
+        invoice_list.add(new Invoice("01/10/2023", "Pagada", 30.10));
+        invoice_list.add(new Invoice("30/09/2023", "Anulada", 5.75));
+        invoice_list.add(new Invoice("22/09/2023", "Plan de pago", 125.50));
+        invoice_list.add(new Invoice("12/09/2023", "", 50.23));
+        invoice_list.add(new Invoice("10/09/2023", "", 30.10));
+        invoice_list.add(new Invoice("08/09/2023", "", 5.75));
+        invoice_list.add(new Invoice("06/09/2023", "", 184.99));
 
-        InvoicesAdapter adapter = new InvoicesAdapter(invoice_list);
+        adapter = new InvoicesAdapter(invoice_list);
         recycler_view_list.setAdapter(adapter);
     }
 
@@ -105,7 +107,6 @@ public class MainActivity extends AppCompatActivity {
         }
         // Redondea el importe máximo en porciones indicadas por AMOUNT_PORTION, en este caso 50
         int rounded_max = (int) (Math.floor((max + AppConstants.AMOUNT_PORTION) / AppConstants.AMOUNT_PORTION)) * AppConstants.AMOUNT_PORTION;
-        Toast.makeText(this, "max: " + rounded_max, Toast.LENGTH_SHORT).show();
         Log.d("tester", "Máximo:" + rounded_max);
         filter.setMax_amount(rounded_max);
         filter.setAmount_selected(rounded_max);
@@ -137,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
     public void openFilter(MenuItem menu_item) {
         Log.d("debug", "openFilter()");
         // Crear una instancia del FilterFragment
-        FilterFragment filterFragment = new FilterFragment(filter);
+        FilterFragment filterFragment = new FilterFragment(filter, invoice_list);
         // Obtener el FragmentManager
         getSupportFragmentManager()
                 .beginTransaction()
@@ -242,16 +243,29 @@ public class MainActivity extends AppCompatActivity {
      *
      * @param msg Mensaje personalizado
      */
-    public void myLog(String msg) {
-        Log.d("debug", msg + " -> datefrom:" + filter.getDate_from() +
-                ", dateuntil:" + filter.getDate_until() +
-                ", datefromtemp:" + filter.getDate_from_temp() +
-                ", dateuntiltemp:" + filter.getDate_until_temp() +
+    public void myLog(String tag, String msg) {
+        Log.d("debug " + tag, msg + " -> from:" + filter.getDate_from() +
+                ", until:" + filter.getDate_until() +
+                ", fromtemp:" + filter.getDate_from_temp() +
+                ", untiltemp:" + filter.getDate_until_temp() +
                 ", maxamount:" + filter.getAmount_selected() +
                 ", paid:" + filter.isPaid() +
                 ", cancelled:" + filter.isCancelled() +
                 ", fixed_fee:" + filter.isFixed_fee() +
                 ", pending_payment:" + filter.isPending_payment() +
                 ", payment_plan:" + filter.isPayment_plan());
+    }
+
+    @Override
+    public void onButtonClicked(ArrayList<Invoice> filtered_invoices) {
+        Log.d("debug click", "Se ha clickado el botón onbuttonclicked");
+        myLog("aplicandoFiltro", "lo que se ha clicado");
+        adapter.setInvoices_list(filtered_invoices);
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+        super.onPointerCaptureChanged(hasCapture);
+        Log.d("debug", "Se ha clickado el botón onPointerCaptureChanged");
     }
 }

@@ -34,11 +34,11 @@
     <string name="filter_fragment_amount_max_value">300 €</string>
     <!-- Status filter -->
     <string name="filter_fragment_status_title">Por estado</string>
-    <string name="filter_fragment_status_option1">Pagadas</string>
-    <string name="filter_fragment_status_option2">Anuladas</string>
-    <string name="filter_fragment_status_option3">Cuota Fija</string>
-    <string name="filter_fragment_status_option4">Pendientes de pago</string>
-    <string name="filter_fragment_status_option5">Plan de pago</string>
+    <string name="filter_fragment_paid">Pagada</string>
+    <string name="filter_fragment_cancelled">Anulada</string>
+    <string name="filter_fragment_fixed_fee">Cuota Fija</string>
+    <string name="filter_fragment_pending_payment">Pendiente de pago</string>
+    <string name="filter_fragment_status_payment_plan">Plan de pago</string>
     <!--Buttons filter -->
     <string name="filter_fragment_apply_button">Aplicar</string>
     <string name="filter_fragment_delete_filters_button">Eliminar filtros</string>

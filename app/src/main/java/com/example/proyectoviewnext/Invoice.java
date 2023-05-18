@@ -1,5 +1,9 @@
 package com.example.proyectoviewnext;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Invoice {
     private String date;
     private String status;
@@ -13,6 +17,17 @@ public class Invoice {
 
     public String getDate() {
         return date;
+    }
+
+    public Date getDateAsDate() {
+        Date new_date = null;
+        try {
+            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+            new_date = format.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return new_date;
     }
 
     public void setDate(String date) {
