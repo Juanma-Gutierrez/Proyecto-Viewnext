@@ -14,7 +14,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
 
 import com.example.proyectoviewnext.filter.Filter;
 import com.example.proyectoviewnext.filter.FilterFragment;
@@ -87,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements FilterFragment.On
         invoiceList.add(new Invoice("08/05/2023", "Pagada", 5.75));
         invoiceList.add(new Invoice("06/05/2023", "Plan de pago", 125.50));
         invoiceList.add(new Invoice("05/05/2023", "Pendiente de pago", 50.23));
-        invoiceList.add(new Invoice("01/04/2023", "Pagada", 30.10));
+        invoiceList.add(new Invoice("01/05/2023", "Pagada", 30.10));
         invoiceList.add(new Invoice("30/04/2023", "Pagada", 5.75));
         invoiceList.add(new Invoice("22/04/2023", "Plan de pago", 125.50));
         invoiceList.add(new Invoice("12/04/2023", "", 50.23));
@@ -148,12 +147,13 @@ public class MainActivity extends AppCompatActivity implements FilterFragment.On
      *
      * @param menuItem
      */
-    public void closeFilter(MenuItem menuItem) {
+    public MenuItem closeFilter(MenuItem menuItem) {
         // Cerrar el FragmentManager
         getSupportFragmentManager()
                 .beginTransaction()
                 .remove(getSupportFragmentManager().findFragmentById(R.id.fragment_container))
                 .commit();
+        return menuItem;
     }
 
     /**
@@ -181,18 +181,18 @@ public class MainActivity extends AppCompatActivity implements FilterFragment.On
         buttonSelected = (buttonId == R.id.date_from_button) ? "from" : "until";
 
         DatePickerDialog dpd = new DatePickerDialog(this, (view1, year1, month1, dayOfMonth) -> {
-            Date date_picker = getNewDate(year1, month1, dayOfMonth);
-            if (buttonSelected == "from") {
+            Date datePicker = getNewDate(year1, month1, dayOfMonth);
+            if (buttonSelected.equals("from")) {
                 // Comprobar si hay que rellenar until
                 if (filter.getDateUntil() == null && filter.getDateUntilTemp() == null) {
                     dateButtonUntil.setText(dateFormat(currentDay));
                     filter.setDateUntilTemp(currentDay);
                 }
-                dateButtonFrom.setText(dateFormat(date_picker));
-                filter.setDateFromTemp(date_picker);
+                dateButtonFrom.setText(dateFormat(datePicker));
+                filter.setDateFromTemp(datePicker);
             } else { // button until selected
-                dateButtonUntil.setText(dateFormat(date_picker));
-                filter.setDateUntilTemp(date_picker);
+                dateButtonUntil.setText(dateFormat(datePicker));
+                filter.setDateUntilTemp(datePicker);
             }
         }, year, month, day);
         dpd.show();
@@ -205,11 +205,10 @@ public class MainActivity extends AppCompatActivity implements FilterFragment.On
      * @return String con la fecha convertida en texto en formato local
      */
     public String dateFormat(Date date) {
-        SimpleDateFormat new_format = new SimpleDateFormat(AppConstants.API_DATE_FORMAT,
+        SimpleDateFormat newFormat = new SimpleDateFormat(AppConstants.API_DATE_FORMAT,
                 new Locale(AppConstants.API_DATE_LANGUAGE,
                         AppConstants.API_DATE_COUNTRY));
-        String new_date = new_format.format(date);
-        return new_date;
+        return newFormat.format(date);
     }
 
     /**
@@ -221,18 +220,17 @@ public class MainActivity extends AppCompatActivity implements FilterFragment.On
      * @return Date con la fecha generada
      */
     public Date getNewDate(int year, int month, int dayOfMonth) {
-        Calendar new_calendar = Calendar.getInstance();
-        new_calendar.set(Calendar.YEAR, year);
-        new_calendar.set(Calendar.MONTH, month);
-        new_calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-        Date date = new_calendar.getTime();
-        return date;
+        Calendar newCalendar = Calendar.getInstance();
+        newCalendar.set(Calendar.YEAR, year);
+        newCalendar.set(Calendar.MONTH, month);
+        newCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        return newCalendar.getTime();
     }
 
 
     @Override
-    public void onButtonClicked(ArrayList<Invoice> filtered_invoices) {
-        adapter.setInvoicesList(filtered_invoices);
+    public void onButtonClicked(ArrayList<Invoice> filteredInvoices) {
+        adapter.setInvoicesList(filteredInvoices);
     }
 
     @Override

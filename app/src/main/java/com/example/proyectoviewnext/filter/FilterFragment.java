@@ -78,7 +78,6 @@ public class FilterFragment extends Fragment {
         return view;
     }
 
-
     /**
      * Activa los listeners para todos los elementos de FilterFragment
      *
@@ -124,11 +123,11 @@ public class FilterFragment extends Fragment {
     }
 
     /**
-     * Aplica el filtro a filtered_list y añade cada elemento que cumple el filtro pasado
+     * Aplica el filtro a filteredList y añade cada elemento que cumple el filtro pasado
      *
-     * @param filtered_list Lista filtrada donde añadir los elementos que cumplan el filtro
+     * @param filteredList Lista filtrada donde añadir los elementos que cumplan el filtro
      */
-    private void applyFilterToInvoicesList(ArrayList<Invoice> filtered_list) {
+    private void applyFilterToInvoicesList(ArrayList<Invoice> filteredList) {
         for (Invoice i : invoicesList) {
             boolean match = true;
             // Chequea fecha de factura
@@ -156,12 +155,12 @@ public class FilterFragment extends Fragment {
             }
             match = (match && status.contains(i.getStatus()) || (match && status.isEmpty()));
 
-            // Comprobar el match para añadir a filtered_list
+            // Comprobar el match para añadir a filteredList
             if (match) {
-                filtered_list.add(i);
+                filteredList.add(i);
             }
         }
-        if (filtered_list.size() == 0) {
+        if (filteredList.isEmpty()) {
             getActivity().findViewById(R.id.filter_none_invoices_info).setVisibility(View.VISIBLE);
         } else {
             getActivity().findViewById(R.id.filter_none_invoices_info).setVisibility(View.GONE);
@@ -205,9 +204,8 @@ public class FilterFragment extends Fragment {
      * @return
      */
     public String dateFormat(Date date) {
-        SimpleDateFormat new_format = new SimpleDateFormat(AppConstants.API_DATE_FORMAT, new Locale(AppConstants.API_DATE_LANGUAGE, AppConstants.API_DATE_COUNTRY));
-        String new_date = new_format.format(date);
-        return new_date;
+        SimpleDateFormat newFormat = new SimpleDateFormat(AppConstants.API_DATE_FORMAT, new Locale(AppConstants.API_DATE_LANGUAGE, AppConstants.API_DATE_COUNTRY));
+        return newFormat.format(date);
     }
 
     /**
