@@ -144,6 +144,7 @@ public class FilterFragment extends Fragment {
                 filteredList.add(i);
             }
         }
+        // Muestra u oculta aviso si ningún elemento cumple el filtro
         if (filteredList.isEmpty()) {
             getActivity().findViewById(R.id.filter_none_invoices_info).setVisibility(View.VISIBLE);
         } else {

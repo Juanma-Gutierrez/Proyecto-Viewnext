@@ -167,6 +167,22 @@ public class MainActivity extends AppCompatActivity implements FilterFragment.On
         Button dateButtonUntil;
         String buttonSelected;
         Calendar calendar = Calendar.getInstance();
+
+        // Seleccionamos el botón pulsado y ponemos en el calendario el valor de from o until correspondiente
+        int buttonId = view.getId();
+        buttonSelected = (buttonId == R.id.date_from_button) ? "from" : "until";
+        try {
+            switch (buttonSelected) {
+                case "from":
+                    calendar.setTime(filter.getDateFromTemp());
+                    break;
+                case "until":
+                    calendar.setTime(filter.getDateUntilTemp());
+                    break;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
@@ -176,10 +192,6 @@ public class MainActivity extends AppCompatActivity implements FilterFragment.On
         // Capturamos los botones
         dateButtonFrom = findViewById(R.id.date_from_button);
         dateButtonUntil = findViewById(R.id.date_until_button);
-
-        // Seleccionamos el botón pulsado
-        int buttonId = view.getId();
-        buttonSelected = (buttonId == R.id.date_from_button) ? "from" : "until";
 
         DatePickerDialog dpd = new DatePickerDialog(this, (view1, year1, month1, dayOfMonth) -> {
             Date datePicker = getNewDate(year1, month1, dayOfMonth);
