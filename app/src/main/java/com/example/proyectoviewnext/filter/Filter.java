@@ -1,12 +1,12 @@
 package com.example.proyectoviewnext.filter;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Filter {
-    private Date dateFrom;
-    private Date dateUntil;
-    private Date dateFromTemp;
-    private Date dateUntilTemp;
+    private LocalDate dateFrom;
+    private LocalDate dateUntil;
+    private LocalDate dateFromTemp;
+    private LocalDate dateUntilTemp;
     private int amountSelected;
 
     private double maxAmount;
@@ -27,19 +27,19 @@ public class Filter {
         this.paymentPlan = false;
     }
 
-    public Date getDateFrom() {
+    public LocalDate getDateFrom() {
         return dateFrom;
     }
 
-    public void setDateFrom(Date dateFrom) {
+    public void setDateFrom(LocalDate dateFrom) {
         this.dateFrom = dateFrom;
     }
 
-    public Date getDateUntil() {
+    public LocalDate getDateUntil() {
         return dateUntil;
     }
 
-    public void setDateUntil(Date dateUntil) {
+    public void setDateUntil(LocalDate dateUntil) {
         this.dateUntil = dateUntil;
     }
 
@@ -99,19 +99,19 @@ public class Filter {
         this.paymentPlan = paymentPlan;
     }
 
-    public Date getDateFromTemp() {
+    public LocalDate getDateFromTemp() {
         return dateFromTemp;
     }
 
-    public void setDateFromTemp(Date dateFromTemp) {
+    public void setDateFromTemp(LocalDate dateFromTemp) {
         this.dateFromTemp = dateFromTemp;
     }
 
-    public Date getDateUntilTemp() {
+    public LocalDate getDateUntilTemp() {
         return dateUntilTemp;
     }
 
-    public void setDateUntilTemp(Date dateUntilTemp) {
+    public void setDateUntilTemp(LocalDate dateUntilTemp) {
         this.dateUntilTemp = dateUntilTemp;
     }
 

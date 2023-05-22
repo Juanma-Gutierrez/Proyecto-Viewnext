@@ -24,6 +24,7 @@ import com.example.proyectoviewnext.R;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -162,12 +163,8 @@ public class FilterFragment extends Fragment {
     private boolean checkDate(Invoice i) {
         // Capturamos los datos de las fechas en formato LocalDate (fecha) sin tener en cuenta la hora
         LocalDate date = i.getDateAsDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        LocalDate from = (filter.getDateFrom() != null) ?
-                filter.getDateFrom().toInstant().atZone(ZoneId.systemDefault()).toLocalDate() :
-                LocalDate.ofEpochDay(0); // Si es nulo, ponemos la fecha más antigua del sistema
-        LocalDate until = (filter.getDateUntil() != null) ?
-                filter.getDateUntil().toInstant().atZone(ZoneId.systemDefault()).toLocalDate() :
-                LocalDate.now(); // Si es nulo ponemos la fecha actual
+        LocalDate from = (filter.getDateFrom() != null) ? filter.getDateFrom() : LocalDate.ofEpochDay(0); // Si es nulo, ponemos la fecha más antigua del sistema
+        LocalDate until = (filter.getDateUntil() != null) ? filter.getDateUntil() : LocalDate.now(); // Si es nulo ponemos la fecha actual
         return (date.compareTo(from) >= 0 && date.compareTo(until) <= 0);
     }
 
@@ -223,10 +220,10 @@ public class FilterFragment extends Fragment {
     private void loadValues(Filter filter) {
         dateFromButton.setText((filter.getDateFrom() == null) ?
                 AppConstants.DATE_BUTTON :
-                dateFormat(filter.getDateFrom()));
+                filter.getDateFrom().format(DateTimeFormatter.ofPattern(AppConstants.API_DATE_FORMAT)));
         dateUntilButton.setText((filter.getDateUntil() == null) ?
                 AppConstants.DATE_BUTTON :
-                dateFormat(filter.getDateUntil()));
+                filter.getDateUntil().format(DateTimeFormatter.ofPattern(AppConstants.API_DATE_FORMAT)));
         amountSeekbar.setMax((int) filter.getMaxAmount());
         amountSeekbar.setProgress(filter.getAmountSelected());
         amountMaxTitle.setText(String.valueOf(filter.getMaxAmount()) + " €");

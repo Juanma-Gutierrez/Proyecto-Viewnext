@@ -22,6 +22,8 @@ import com.example.proyectoviewnext.invoice.InvoicesAdapter;
 import com.example.proyectoviewnext.utils.AppConstants;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -166,48 +168,34 @@ public class MainActivity extends AppCompatActivity implements FilterFragment.On
         Button dateButtonFrom;
         Button dateButtonUntil;
         String buttonSelected;
-        Calendar calendar = Calendar.getInstance();
 
         // Seleccionamos el botón pulsado y ponemos en el calendario el valor de from o until correspondiente
         int buttonId = view.getId();
         buttonSelected = (buttonId == R.id.date_from_button) ? "from" : "until";
-        try {
-            switch (buttonSelected) {
-                case "from":
-                    calendar.setTime(filter.getDateFromTemp());
-                    break;
-                case "until":
-                    calendar.setTime(filter.getDateUntilTemp());
-                    break;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        LocalDate currentDate = LocalDate.now();
+        LocalDate buttonDate = buttonSelected.equals("from") ? filter.getDateFromTemp() : filter.getDateUntilTemp();
+        if (buttonDate == null) {
+            buttonDate = LocalDate.now();
         }
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-        Calendar currentDate = Calendar.getInstance();
-        Date currentDay = currentDate.getTime();
-
         // Capturamos los botones
         dateButtonFrom = findViewById(R.id.date_from_button);
         dateButtonUntil = findViewById(R.id.date_until_button);
 
         DatePickerDialog dpd = new DatePickerDialog(this, (view1, year1, month1, dayOfMonth) -> {
-            Date datePicker = getNewDate(year1, month1, dayOfMonth);
+            LocalDate datePicker = LocalDate.of(year1, month1, dayOfMonth);
             if (buttonSelected.equals("from")) {
                 // Comprobar si hay que rellenar until
                 if (filter.getDateUntil() == null && filter.getDateUntilTemp() == null) {
-                    dateButtonUntil.setText(dateFormat(currentDay));
-                    filter.setDateUntilTemp(currentDay);
+                    dateButtonUntil.setText(currentDate.format(DateTimeFormatter.ofPattern(AppConstants.API_DATE_FORMAT)));
+                    filter.setDateUntilTemp(currentDate);
                 }
-                dateButtonFrom.setText(dateFormat(datePicker));
+                dateButtonFrom.setText(datePicker.format(DateTimeFormatter.ofPattern(AppConstants.API_DATE_FORMAT)));
                 filter.setDateFromTemp(datePicker);
             } else { // button until selected
-                dateButtonUntil.setText(dateFormat(datePicker));
+                dateButtonUntil.setText(datePicker.format(DateTimeFormatter.ofPattern(AppConstants.API_DATE_FORMAT)));
                 filter.setDateUntilTemp(datePicker);
             }
-        }, year, month, day);
+        }, buttonDate.getYear(), buttonDate.getMonthValue(), buttonDate.getDayOfMonth());
         dpd.show();
     }
 
