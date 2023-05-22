@@ -81,24 +81,25 @@ public class MainActivity extends AppCompatActivity implements FilterFragment.On
             LinearLayoutManager llm = new LinearLayoutManager(MainActivity.this);
             llm.setOrientation(LinearLayoutManager.VERTICAL);
             recyclerViewList.setLayoutManager(llm);
+
+
+            invoiceList = new ArrayList<>();
+            invoiceList.add(new Invoice("12/05/2023", "Pagada", 50.23));
+            invoiceList.add(new Invoice("10/05/2023", "Cuota Fija", 30.10));
+            invoiceList.add(new Invoice("08/05/2023", "Pagada", 5.75));
+            invoiceList.add(new Invoice("06/05/2023", "Plan de pago", 125.50));
+            invoiceList.add(new Invoice("05/05/2023", "Pendiente de pago", 50.23));
+            invoiceList.add(new Invoice("01/05/2023", "Pagada", 30.10));
+            invoiceList.add(new Invoice("30/04/2023", "Pagada", 5.75));
+            invoiceList.add(new Invoice("22/04/2023", "Plan de pago", 125.50));
+            invoiceList.add(new Invoice("12/04/2023", "", 50.23));
+            invoiceList.add(new Invoice("10/04/2023", "", 30.10));
+            invoiceList.add(new Invoice("08/04/2023", "", 5.75));
+            invoiceList.add(new Invoice("06/04/2023", "", 184.99));
+
+            adapter = new InvoicesAdapter(invoiceList);
+            recyclerViewList.setAdapter(adapter);
         }
-
-        invoiceList = new ArrayList<>();
-        invoiceList.add(new Invoice("12/05/2023", "Pagada", 50.23));
-        invoiceList.add(new Invoice("10/05/2023", "Cuota Fija", 30.10));
-        invoiceList.add(new Invoice("08/05/2023", "Pagada", 5.75));
-        invoiceList.add(new Invoice("06/05/2023", "Plan de pago", 125.50));
-        invoiceList.add(new Invoice("05/05/2023", "Pendiente de pago", 50.23));
-        invoiceList.add(new Invoice("01/05/2023", "Pagada", 30.10));
-        invoiceList.add(new Invoice("30/04/2023", "Pagada", 5.75));
-        invoiceList.add(new Invoice("22/04/2023", "Plan de pago", 125.50));
-        invoiceList.add(new Invoice("12/04/2023", "", 50.23));
-        invoiceList.add(new Invoice("10/04/2023", "", 30.10));
-        invoiceList.add(new Invoice("08/04/2023", "", 5.75));
-        invoiceList.add(new Invoice("06/04/2023", "", 184.99));
-
-        adapter = new InvoicesAdapter(invoiceList);
-        recyclerViewList.setAdapter(adapter);
     }
 
     public void setMaxAmount() {
@@ -234,10 +235,10 @@ public class MainActivity extends AppCompatActivity implements FilterFragment.On
         adapter.setInvoicesList(filteredInvoices);
     }
 
-    @Override
+/*    @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
         super.onPointerCaptureChanged(hasCapture);
-    }
+    }*/
 
     /**
      * Log con información del filtro
