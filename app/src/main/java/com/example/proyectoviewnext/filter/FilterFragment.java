@@ -22,8 +22,11 @@ import com.example.proyectoviewnext.invoice.Invoice;
 import com.example.proyectoviewnext.R;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class FilterFragment extends Fragment {
@@ -38,14 +41,11 @@ public class FilterFragment extends Fragment {
     private CheckBox fixedFee;
     private CheckBox pendingPayment;
     private CheckBox paymentPlan;
-    private Button deleteFilter;
-    private Button applyFilter;
     private Filter filter;
     private OnButtonClickListener buttonClickListener;
-    private ArrayList<Invoice> invoicesList; // Lista de facturas
-    private ArrayList<Invoice> filteredList; // Lista filtrada de facturas
+    private List<Invoice> invoicesList; // Lista de facturas
 
-    public FilterFragment(Filter filter, ArrayList<Invoice> invoicesList) {
+    public FilterFragment(Filter filter, List<Invoice> invoicesList) {
         this.filter = filter;
         this.invoicesList = invoicesList;
     }
@@ -84,6 +84,8 @@ public class FilterFragment extends Fragment {
      * @param view
      */
     public void setClickListeners(View view) {
+        Button deleteFilter;
+        Button applyFilter;
         // Obtener referencias a los elementos del diseño
         dateFromButton = view.findViewById(R.id.date_from_button);
         dateUntilButton = view.findViewById(R.id.date_until_button);
@@ -105,6 +107,7 @@ public class FilterFragment extends Fragment {
      * Aplicar el filtro, graba en el objeto filter la configuración de FilterFragment
      */
     private void applyFilter() {
+        ArrayList<Invoice> filteredList; // Lista filtrada de facturas
         filter.setAmountSelected(amountSeekbarSelected);
         filter.setDateFrom(filter.getDateFromTemp());
         filter.setDateUntil(filter.getDateUntilTemp());
@@ -114,7 +117,7 @@ public class FilterFragment extends Fragment {
         filter.setPendingPayment(pendingPayment.isChecked());
         filter.setPaymentPlan(paymentPlan.isChecked());
         // hacer el filtrado total
-        filteredList = new ArrayList<Invoice>();
+        filteredList = new ArrayList<>();
         applyFilterToInvoicesList(filteredList);
         if (buttonClickListener != null) {
             buttonClickListener.onButtonClicked(filteredList);
@@ -131,30 +134,11 @@ public class FilterFragment extends Fragment {
         for (Invoice i : invoicesList) {
             boolean match = true;
             // Chequea fecha de factura
-            if ((filter.getDateFrom() != null && i.getDateAsDate().before(filter.getDateFrom())) || (filter.getDateUntil() != null && i.getDateAsDate().after(filter.getDateUntil()))) {
-                match = false;
-            }
+            match = checkDate(i);
             // Chequea importe de factura
-            match = match && i.getAmount() <= filter.getAmountSelected();
+            match = match && checkAmount(i);
             // Chequea estado de la factura
-            ArrayList<String> status = new ArrayList<>();
-            if (filter.isPaid()) {
-                status.add(getActivity().getApplicationContext().getString(R.string.filter_fragment_paid));
-            }
-            if (filter.isCancelled()) {
-                status.add(getActivity().getApplicationContext().getString(R.string.filter_fragment_cancelled));
-            }
-            if (filter.isFixedFee()) {
-                status.add(getActivity().getApplicationContext().getString(R.string.filter_fragment_fixed_fee));
-            }
-            if (filter.isPendingPayment()) {
-                status.add(getActivity().getApplicationContext().getString(R.string.filter_fragment_pending_payment));
-            }
-            if (filter.isPaymentPlan()) {
-                status.add(getActivity().getApplicationContext().getString(R.string.filter_fragment_status_payment_plan));
-            }
-            match = (match && status.contains(i.getStatus()) || (match && status.isEmpty()));
-
+            match = match && checkStatus(i);
             // Comprobar el match para añadir a filteredList
             if (match) {
                 filteredList.add(i);
@@ -165,6 +149,61 @@ public class FilterFragment extends Fragment {
         } else {
             getActivity().findViewById(R.id.filter_none_invoices_info).setVisibility(View.GONE);
         }
+    }
+
+
+    /**
+     * Devuelve true si la fecha de la factura está entre las fechas from y until del filtro
+     *
+     * @param i Factura a comprobar si se cumple el filtro
+     * @return
+     */
+    private boolean checkDate(Invoice i) {
+        // Capturamos los datos de las fechas en formato LocalDate (fecha) sin tener en cuenta la hora
+        LocalDate date = i.getDateAsDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate from = (filter.getDateFrom() != null) ?
+                filter.getDateFrom().toInstant().atZone(ZoneId.systemDefault()).toLocalDate() :
+                LocalDate.ofEpochDay(0); // Si es nulo, ponemos la fecha más antigua del sistema
+        LocalDate until = (filter.getDateUntil() != null) ?
+                filter.getDateUntil().toInstant().atZone(ZoneId.systemDefault()).toLocalDate() :
+                LocalDate.now(); // Si es nulo ponemos la fecha actual
+        return (date.compareTo(from) >= 0 && date.compareTo(until) <= 0);
+    }
+
+    /**
+     * Comprueba si la cantidad de la factura está entre la cantidad seleccionada en el filtro
+     *
+     * @param i Factura a comprobar si se cumple el filtro
+     * @return
+     */
+    private boolean checkAmount(Invoice i) {
+        return i.getAmount() <= filter.getAmountSelected();
+    }
+
+    /**
+     * Comprueba si se cumple el estado de la factura con lo seleccionado en el filtro
+     *
+     * @param i Factura a comprobar si se cumple el filtro
+     * @return
+     */
+    private boolean checkStatus(Invoice i) {
+        ArrayList<String> status = new ArrayList<>();
+        if (filter.isPaid()) {
+            status.add(getActivity().getApplicationContext().getString(R.string.filter_fragment_paid));
+        }
+        if (filter.isCancelled()) {
+            status.add(getActivity().getApplicationContext().getString(R.string.filter_fragment_cancelled));
+        }
+        if (filter.isFixedFee()) {
+            status.add(getActivity().getApplicationContext().getString(R.string.filter_fragment_fixed_fee));
+        }
+        if (filter.isPendingPayment()) {
+            status.add(getActivity().getApplicationContext().getString(R.string.filter_fragment_pending_payment));
+        }
+        if (filter.isPaymentPlan()) {
+            status.add(getActivity().getApplicationContext().getString(R.string.filter_fragment_status_payment_plan));
+        }
+        return (status.contains(i.getStatus()) || (status.isEmpty()));
     }
 
     /**

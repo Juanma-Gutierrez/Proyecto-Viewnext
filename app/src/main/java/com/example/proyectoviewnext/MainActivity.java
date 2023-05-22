@@ -30,7 +30,6 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity implements FilterFragment.OnButtonClickListener {
 
     private Filter filter;                   // Filtro a aplicar
-    private RecyclerView recyclerViewList; // Vista donde se cargan las facturas
     private ArrayList<Invoice> invoiceList; // Array donde se guardarán los elementos de la lista
     private InvoicesAdapter adapter;         // Adaptador de facturas
 
@@ -67,6 +66,8 @@ public class MainActivity extends AppCompatActivity implements FilterFragment.On
      * Inicializa la carga de datos de facturas
      */
     public void init() {
+        RecyclerView recyclerViewList; // Vista donde se cargan las facturas
+
         // Menu
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.invoices_list_title);

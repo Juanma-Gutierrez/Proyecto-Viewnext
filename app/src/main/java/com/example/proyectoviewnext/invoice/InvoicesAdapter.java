@@ -11,16 +11,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.proyectoviewnext.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class InvoicesAdapter extends RecyclerView.Adapter<InvoicesAdapter.InvoicesViewHolder> {
-    private ArrayList<Invoice> invoicesList;
+    private List<Invoice> invoicesList;
 
     /**
      * Inicializa el adaptador InvoicesAdapter
      *
      * @param invoicesList Lista de facturas
      */
-    public InvoicesAdapter(ArrayList<Invoice> invoicesList) {
+    public InvoicesAdapter(List<Invoice> invoicesList) {
         this.invoicesList = invoicesList;
     }
 
@@ -29,7 +30,7 @@ public class InvoicesAdapter extends RecyclerView.Adapter<InvoicesAdapter.Invoic
      *
      * @param invoicesList Lista de facturas
      */
-    public void setInvoicesList(ArrayList<Invoice> invoicesList) {
+    public void setInvoicesList(List<Invoice> invoicesList) {
         this.invoicesList = invoicesList;
         notifyDataSetChanged();
     }
