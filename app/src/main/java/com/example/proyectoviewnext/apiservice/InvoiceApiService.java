@@ -1,4 +1,4 @@
-package com.example.proyectoviewnext.filter;
+package com.example.proyectoviewnext.apiservice;
 
 import com.example.proyectoviewnext.utils.AppConstants;
 import com.google.gson.Gson;

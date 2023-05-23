@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.proyectoviewnext.filter.Filter;
 import com.example.proyectoviewnext.filter.FilterFragment;
-import com.example.proyectoviewnext.filter.InvoiceApiService;
+import com.example.proyectoviewnext.apiservice.InvoiceApiService;
 import com.example.proyectoviewnext.invoice.InvoiceVO;
 import com.example.proyectoviewnext.invoice.InvoicesAdapter;
 import com.example.proyectoviewnext.invoice.InvoicesList;
