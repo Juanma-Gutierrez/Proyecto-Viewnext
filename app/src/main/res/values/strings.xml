@@ -1,0 +1,46 @@
+<resources>
+    <!-- App name -->
+    <string name="app_name">Proyecto Viewnext</string>
+
+    <!-- General -->
+    <string name="close_button">Cerrar</string>
+    <string name="invoices_list_title">Facturas</string>
+
+    <!-- Alert dialog -->
+    <string name="alert_title">Información</string>
+    <string name="alert_info">Esta funcionalidad aún no está disponible</string>
+
+    <!-- Invoice layout-->
+    <string name="mainactivity_back_button">Consumo</string>
+    <string name="mainactivity_name">Facturas</string>
+
+    <!-- ListElement -->
+    <string name="invoice_item_invoice_amount">%.2f €</string>
+    <string name="invoice_item_arrow">Más información</string>
+
+    <!-- FilterFragment -->
+    <!-- Title -->
+    <string name="filter_fragment_title">Filtrar facturas</string>
+    <!-- Date filter -->
+    <string name="filter_fragment_date_title">Con fecha de emisión</string>
+    <string name="filter_fragment_date_start">Desde:</string>
+    <string name="filter_fragment_date_end">Hasta:</string>
+    <string name="filter_fragment_date_button">día/mes/año</string>
+    <!-- Amount filter -->
+    <string name="filter_fragment_amount_title">Por un importe</string>
+    <string name="filter_fragment_amount_min_selected">0 €</string>
+    <string name="filter_fragment_amount_max_selected">250 €</string>
+    <string name="filter_fragment_amount_min_value">0 €</string>
+    <string name="filter_fragment_amount_max_value">300 €</string>
+    <!-- Status filter -->
+    <string name="filter_fragment_status_title">Por estado</string>
+    <string name="filter_fragment_paid">Pagada</string>
+    <string name="filter_fragment_cancelled">Anulada</string>
+    <string name="filter_fragment_fixed_fee">Cuota Fija</string>
+    <string name="filter_fragment_pending_payment">Pendiente de pago</string>
+    <string name="filter_fragment_status_payment_plan">Plan de pago</string>
+    <!--Buttons filter -->
+    <string name="filter_fragment_apply_button">Aplicar</string>
+    <string name="filter_fragment_delete_filters_button">Eliminar filtros</string>
+    <string name="filter_fragment_none_invoice">No existe ninguna factura que cumpla los requisitos del filtro aplicado</string>
+</resources>
