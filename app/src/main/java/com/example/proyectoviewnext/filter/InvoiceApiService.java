@@ -18,11 +18,7 @@ public class InvoiceApiService {
 
     private static InvoiceApiServiceRequest apiService;
 
-    /**
-     * URL principal:   https://viewnextandroid.mocklab.io/facturas
-     * URL alternativa: https://viewnextandroid2.wiremockapi.cloud/facturas
-     */
-    private static final String BASE_URL = "https://viewnextandroid2.wiremockapi.cloud/";
+    private static final String BASE_URL = AppConstants.BASE_URL;
 
     private InvoiceApiService() {
         // Constructor privado requerido
@@ -47,7 +43,7 @@ public class InvoiceApiService {
 
         return apiService;
     }
-    public static JsonDeserializer<LocalDate> localDateJsonDeserializer = (jsonElem, type, context) -> {
+    public static final JsonDeserializer<LocalDate> localDateJsonDeserializer = (jsonElem, type, context) -> {
         if (jsonElem == null) {
             return null;
         }

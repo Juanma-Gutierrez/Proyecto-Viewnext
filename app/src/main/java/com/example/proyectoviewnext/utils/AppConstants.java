@@ -9,8 +9,12 @@ public final class AppConstants {
 
     // Filter
     public static final String DATE_BUTTON = "día/mes/año";
+    // AMOUNT_PORTION
     public static final int AMOUNT_PORTION = 5;
+
     // Retrofit
+    // URL principal:   https://viewnextandroid.mocklab.io/facturas
+    // URL alternativa: https://viewnextandroid2.wiremockapi.cloud/facturas
     public static final String BASE_URL = "https://viewnextandroid2.wiremockapi.cloud/";
     public static final String URL_PATH = "facturas";
 

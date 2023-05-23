@@ -75,22 +75,17 @@ public class MainActivity extends AppCompatActivity implements FilterFragment.On
      * Inicializa la carga de datos de facturas
      */
     public void init() {
-        RecyclerView recyclerViewList; // Vista donde se cargan las facturas
-
         // Menu
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.invoices_list_title);
         setSupportActionBar(toolbar);
 
         adapter = new InvoicesAdapter(invoiceVOList);
-        adapter.setItemOnClickListener(new InvoicesAdapter.RecyclerOnClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                builder.setTitle(R.string.alert_title).setMessage(R.string.alert_info).setPositiveButton(R.string.close_button, (dialog, id) -> dialog.dismiss());
-                AlertDialog dialog = builder.create();
-                dialog.show();
-            }
+        adapter.setItemOnClickListener(position -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            builder.setTitle(R.string.alert_title).setMessage(R.string.alert_info).setPositiveButton(R.string.close_button, (dialog, id) -> dialog.dismiss());
+            AlertDialog dialog = builder.create();
+            dialog.show();
         });
 
         Call<InvoicesList> call = InvoiceApiService.getApiService().getInvoices();
@@ -116,12 +111,12 @@ public class MainActivity extends AppCompatActivity implements FilterFragment.On
         });
     }
 
-    public void openFilterFragment(View view) {
+    public void openFilterFragment() {
         View fragmentContainer = findViewById(R.id.filter_container);
         fragmentContainer.setVisibility(View.VISIBLE);
     }
 
-    public void closeFilterFragment(View view) {
+    public void closeFilterFragment() {
         Log.d("close", "closeFilterFragment");
         View fragmentContainer = findViewById(R.id.filter_container);
         fragmentContainer.setVisibility(View.GONE);

@@ -19,6 +19,7 @@ import java.util.List;
  */
 public class InvoicesAdapter extends RecyclerView.Adapter<InvoicesAdapter.InvoicesViewHolder> {
     private List<InvoiceVO> invoicesList;
+
     private RecyclerOnClickListener listener;
 
     /**
@@ -75,8 +76,9 @@ public class InvoicesAdapter extends RecyclerView.Adapter<InvoicesAdapter.Invoic
         void onItemClick(int position);
     }
 
-    public void setItemOnClickListener(RecyclerOnClickListener listener) {
+    public RecyclerOnClickListener setItemOnClickListener(RecyclerOnClickListener listener) {
         this.listener = listener;
+        return listener;
     }
 
     /**

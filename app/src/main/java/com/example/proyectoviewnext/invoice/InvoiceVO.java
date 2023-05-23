@@ -1,11 +1,6 @@
 package com.example.proyectoviewnext.invoice;
 
-import com.example.proyectoviewnext.utils.AppConstants;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Date;
 
 public class InvoiceVO {
     private LocalDate fecha;
@@ -21,17 +16,6 @@ public class InvoiceVO {
     public LocalDate getDate() {
         return fecha;
     }
-
-/*    public LocalDate getDateAsDate() {
-        Date newDate = null;
-        try {
-            SimpleDateFormat format = new SimpleDateFormat(AppConstants.API_DATE_FORMAT);
-            newDate = format.parse(fecha);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return newDate;
-    }*/
 
     public void setDate(LocalDate date) {
         this.fecha = date;
