@@ -9,8 +9,7 @@ public final class AppConstants {
 
     // Filter
     public static final String DATE_BUTTON = "día/mes/año";
-    public static final int AMOUNT_PORTION = 50;
-
+    public static final int AMOUNT_PORTION = 5;
     // Retrofit
     public static final String BASE_URL = "https://viewnextandroid2.wiremockapi.cloud/";
     public static final String URL_PATH = "facturas";

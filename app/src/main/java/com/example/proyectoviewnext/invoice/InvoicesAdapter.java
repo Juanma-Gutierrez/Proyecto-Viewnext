@@ -9,7 +9,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.proyectoviewnext.R;
+import com.example.proyectoviewnext.utils.AppConstants;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
@@ -63,7 +65,7 @@ public class InvoicesAdapter extends RecyclerView.Adapter<InvoicesAdapter.Invoic
     @Override
     public void onBindViewHolder(@NonNull InvoicesViewHolder holder, int position) {
         InvoiceVO invoiceVO = invoicesList.get(position);
-        holder.getTextViewDate().setText(invoiceVO.getDate());
+        holder.getTextViewDate().setText(invoiceVO.getDate().format(DateTimeFormatter.ofPattern((AppConstants.API_DATE_FORMAT))));
         holder.getTextViewStatus().setText(invoiceVO.getDescEstado());
         holder.getTextViewAmount().setText(String.format("%.2f €", invoiceVO.getImporteOrdenacion()));
 

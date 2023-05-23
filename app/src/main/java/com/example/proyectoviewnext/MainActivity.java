@@ -15,9 +15,9 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.proyectoviewnext.apiservice.InvoiceApiService;
 import com.example.proyectoviewnext.filter.Filter;
 import com.example.proyectoviewnext.filter.FilterFragment;
+import com.example.proyectoviewnext.filter.InvoiceApiService;
 import com.example.proyectoviewnext.invoice.InvoiceVO;
 import com.example.proyectoviewnext.invoice.InvoicesAdapter;
 import com.example.proyectoviewnext.invoice.InvoicesList;
@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements FilterFragment.On
         filter = new Filter();
         // Cargamos los datos
         init();
-        setMaxAmount();
+
     }
 
     /**
@@ -82,30 +82,6 @@ public class MainActivity extends AppCompatActivity implements FilterFragment.On
         toolbar.setTitle(R.string.invoices_list_title);
         setSupportActionBar(toolbar);
 
-        // Asignamos a la lista la vista list_view_invoices
-  /*       recyclerViewList = (RecyclerView) findViewById(R.id.list_view_invoices);
-        if (recyclerViewList != null) {
-            LinearLayoutManager llm = new LinearLayoutManager(MainActivity.this);
-            llm.setOrientation(LinearLayoutManager.VERTICAL);
-            recyclerViewList.setLayoutManager(llm);
-
-           invoiceVOList = new ArrayList<>();
-            invoiceVOList.add(new InvoiceVO("12/05/2023", "Pagada", 50.23));
-            invoiceVOList.add(new InvoiceVO("10/05/2023", "Cuota Fija", 30.10));
-            invoiceVOList.add(new InvoiceVO("08/05/2023", "Pagada", 5.75));
-            invoiceVOList.add(new InvoiceVO("06/05/2023", "Plan de pago", 125.50));
-            invoiceVOList.add(new InvoiceVO("05/05/2023", "Pendiente de pago", 50.23));
-            invoiceVOList.add(new InvoiceVO("01/05/2023", "Pagada", 30.10));
-            invoiceVOList.add(new InvoiceVO("30/04/2023", "Pagada", 5.75));
-            invoiceVOList.add(new InvoiceVO("22/04/2023", "Plan de pago", 125.50));
-            invoiceVOList.add(new InvoiceVO("12/04/2023", "", 50.23));
-            invoiceVOList.add(new InvoiceVO("10/04/2023", "", 30.10));
-            invoiceVOList.add(new InvoiceVO("08/04/2023", "", 5.75));
-            invoiceVOList.add(new InvoiceVO("06/04/2023", "", 184.99));
-
-            adapter = new InvoicesAdapter(invoiceVOList);
-            recyclerViewList.setAdapter(adapter);*/
-
         adapter = new InvoicesAdapter(invoiceVOList);
         adapter.setItemOnClickListener(new InvoicesAdapter.RecyclerOnClickListener() {
             @Override
@@ -117,19 +93,19 @@ public class MainActivity extends AppCompatActivity implements FilterFragment.On
             }
         });
 
-         Call<InvoicesList> call = InvoiceApiService.getApiService().getInvoices();
-         call.enqueue(new Callback<InvoicesList>() {
+        Call<InvoicesList> call = InvoiceApiService.getApiService().getInvoices();
+        call.enqueue(new Callback<InvoicesList>() {
             @Override
             public void onResponse(Call<InvoicesList> call, Response<InvoicesList> response) {
                 if (response.isSuccessful()) {
                     invoiceVOList = response.body().getFacturas();
                     Log.d("onResponse elements", "Size of elements => " + invoiceVOList.size());
                     adapter.setInvoicesList(invoiceVOList);
-
                     RecyclerView recyclerView = findViewById(R.id.list_view_invoices);
                     recyclerView.setHasFixedSize(true);
                     recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
                     recyclerView.setAdapter(adapter);
+                    setMaxAmount();
                 }
             }
 
@@ -227,7 +203,7 @@ public class MainActivity extends AppCompatActivity implements FilterFragment.On
         dateButtonUntil = findViewById(R.id.date_until_button);
 
         DatePickerDialog dpd = new DatePickerDialog(this, (view1, year1, month1, dayOfMonth) -> {
-            LocalDate datePicker = LocalDate.of(year1, month1, dayOfMonth);
+            LocalDate datePicker = LocalDate.of(year1, month1 + 1, dayOfMonth);
             if (buttonSelected.equals("from")) {
                 // Comprobar si hay que rellenar until
                 if (filter.getDateUntil() == null && filter.getDateUntilTemp() == null) {

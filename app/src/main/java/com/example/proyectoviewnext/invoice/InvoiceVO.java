@@ -4,36 +4,37 @@ import com.example.proyectoviewnext.utils.AppConstants;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 
 public class InvoiceVO {
-    private String date;
+    private LocalDate fecha;
     private String descEstado;
     private double importeOrdenacion;
 
-    public InvoiceVO(String date, String descEstado, double importeOrdenacion) {
-        this.date = date;
+    public InvoiceVO(LocalDate fecha, String descEstado, double importeOrdenacion) {
+        this.fecha = fecha;
         this.descEstado = descEstado;
         this.importeOrdenacion = importeOrdenacion;
     }
 
-    public String getDate() {
-        return date;
+    public LocalDate getDate() {
+        return fecha;
     }
 
-    public Date getDateAsDate() {
+/*    public LocalDate getDateAsDate() {
         Date newDate = null;
         try {
             SimpleDateFormat format = new SimpleDateFormat(AppConstants.API_DATE_FORMAT);
-            newDate = format.parse(date);
+            newDate = format.parse(fecha);
         } catch (ParseException e) {
             e.printStackTrace();
         }
         return newDate;
-    }
+    }*/
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setDate(LocalDate date) {
+        this.fecha = date;
     }
 
     public String getDescEstado() {
