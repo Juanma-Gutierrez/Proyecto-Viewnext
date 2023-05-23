@@ -10,18 +10,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.proyectoviewnext.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Convierte los datos de facturas a componentes visuales para cada elemento
+ */
 public class InvoicesAdapter extends RecyclerView.Adapter<InvoicesAdapter.InvoicesViewHolder> {
-    private List<Invoice> invoicesList;
+    private List<InvoiceVO> invoicesList;
+    private RecyclerOnClickListener listener;
 
     /**
      * Inicializa el adaptador InvoicesAdapter
      *
      * @param invoicesList Lista de facturas
      */
-    public InvoicesAdapter(List<Invoice> invoicesList) {
+    public InvoicesAdapter(List<InvoiceVO> invoicesList) {
         this.invoicesList = invoicesList;
     }
 
@@ -30,7 +33,7 @@ public class InvoicesAdapter extends RecyclerView.Adapter<InvoicesAdapter.Invoic
      *
      * @param invoicesList Lista de facturas
      */
-    public void setInvoicesList(List<Invoice> invoicesList) {
+    public void setInvoicesList(List<InvoiceVO> invoicesList) {
         this.invoicesList = invoicesList;
         notifyDataSetChanged();
     }
@@ -59,20 +62,32 @@ public class InvoicesAdapter extends RecyclerView.Adapter<InvoicesAdapter.Invoic
      */
     @Override
     public void onBindViewHolder(@NonNull InvoicesViewHolder holder, int position) {
-            Invoice invoice = invoicesList.get(position);
-            holder.getTextViewDate().setText(invoice.getDate());
-            holder.getTextViewStatus().setText(invoice.getStatus());
-            holder.getTextViewAmount().setText(String.format("%.2f €", invoice.getAmount()));
+        InvoiceVO invoiceVO = invoicesList.get(position);
+        holder.getTextViewDate().setText(invoiceVO.getDate());
+        holder.getTextViewStatus().setText(invoiceVO.getDescEstado());
+        holder.getTextViewAmount().setText(String.format("%.2f €", invoiceVO.getImporteOrdenacion()));
 
     }
 
-    // Devuelve el contador de elementos de la vista
+    public interface RecyclerOnClickListener {
+        void onItemClick(int position);
+    }
+
+    public void setItemOnClickListener(RecyclerOnClickListener listener) {
+        this.listener = listener;
+    }
+
+    /**
+     * Devuelve el contador de elementos de la vista
+     *
+     * @return
+     */
     @Override
     public int getItemCount() {
         return invoicesList.size();
     }
 
-    public class InvoicesViewHolder extends RecyclerView.ViewHolder {
+    public static class InvoicesViewHolder extends RecyclerView.ViewHolder {
         private TextView textViewDate;
         private TextView textViewStatus;
         private TextView textViewAmount;
@@ -101,5 +116,7 @@ public class InvoicesAdapter extends RecyclerView.Adapter<InvoicesAdapter.Invoic
         public TextView getTextViewAmount() {
             return textViewAmount;
         }
+
+
     }
 }

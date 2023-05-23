@@ -8,7 +8,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +17,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.proyectoviewnext.utils.AppConstants;
-import com.example.proyectoviewnext.invoice.Invoice;
+import com.example.proyectoviewnext.invoice.InvoiceVO;
 import com.example.proyectoviewnext.R;
 
 import java.text.SimpleDateFormat;
@@ -44,9 +43,9 @@ public class FilterFragment extends Fragment {
     private CheckBox paymentPlan;
     private Filter filter;
     private OnButtonClickListener buttonClickListener;
-    private List<Invoice> invoicesList; // Lista de facturas
+    private List<InvoiceVO> invoicesList; // Lista de facturas
 
-    public FilterFragment(Filter filter, List<Invoice> invoicesList) {
+    public FilterFragment(Filter filter, List<InvoiceVO> invoicesList) {
         this.filter = filter;
         this.invoicesList = invoicesList;
     }
@@ -108,7 +107,7 @@ public class FilterFragment extends Fragment {
      * Aplicar el filtro, graba en el objeto filter la configuración de FilterFragment
      */
     private void applyFilter() {
-        ArrayList<Invoice> filteredList; // Lista filtrada de facturas
+        ArrayList<InvoiceVO> filteredList; // Lista filtrada de facturas
         filter.setAmountSelected(amountSeekbarSelected);
         filter.setDateFrom(filter.getDateFromTemp());
         filter.setDateUntil(filter.getDateUntilTemp());
@@ -131,8 +130,8 @@ public class FilterFragment extends Fragment {
      *
      * @param filteredList Lista filtrada donde añadir los elementos que cumplan el filtro
      */
-    private void applyFilterToInvoicesList(ArrayList<Invoice> filteredList) {
-        for (Invoice i : invoicesList) {
+    private void applyFilterToInvoicesList(ArrayList<InvoiceVO> filteredList) {
+        for (InvoiceVO i : invoicesList) {
             boolean match = true;
             // Chequea fecha de factura
             match = checkDate(i);
@@ -160,7 +159,7 @@ public class FilterFragment extends Fragment {
      * @param i Factura a comprobar si se cumple el filtro
      * @return
      */
-    private boolean checkDate(Invoice i) {
+    private boolean checkDate(InvoiceVO i) {
         // Capturamos los datos de las fechas en formato LocalDate (fecha) sin tener en cuenta la hora
         LocalDate date = i.getDateAsDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         LocalDate from = (filter.getDateFrom() != null) ? filter.getDateFrom() : LocalDate.ofEpochDay(0); // Si es nulo, ponemos la fecha más antigua del sistema
@@ -174,8 +173,8 @@ public class FilterFragment extends Fragment {
      * @param i Factura a comprobar si se cumple el filtro
      * @return
      */
-    private boolean checkAmount(Invoice i) {
-        return i.getAmount() <= filter.getAmountSelected();
+    private boolean checkAmount(InvoiceVO i) {
+        return i.getImporteOrdenacion() <= filter.getAmountSelected();
     }
 
     /**
@@ -184,7 +183,7 @@ public class FilterFragment extends Fragment {
      * @param i Factura a comprobar si se cumple el filtro
      * @return
      */
-    private boolean checkStatus(Invoice i) {
+    private boolean checkStatus(InvoiceVO i) {
         ArrayList<String> status = new ArrayList<>();
         if (filter.isPaid()) {
             status.add(getActivity().getApplicationContext().getString(R.string.filter_fragment_paid));
@@ -201,7 +200,7 @@ public class FilterFragment extends Fragment {
         if (filter.isPaymentPlan()) {
             status.add(getActivity().getApplicationContext().getString(R.string.filter_fragment_status_payment_plan));
         }
-        return (status.contains(i.getStatus()) || (status.isEmpty()));
+        return (status.contains(i.getDescEstado()) || (status.isEmpty()));
     }
 
     /**
@@ -279,7 +278,7 @@ public class FilterFragment extends Fragment {
     }
 
     public interface OnButtonClickListener {
-        void onButtonClicked(ArrayList<Invoice> invoices);
+        void onButtonClicked(ArrayList<InvoiceVO> invoiceVOS);
     }
 
     @Override

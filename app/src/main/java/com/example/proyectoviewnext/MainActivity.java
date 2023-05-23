@@ -1,11 +1,5 @@
 package com.example.proyectoviewnext;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,10 +9,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.proyectoviewnext.apiservice.InvoiceApiService;
 import com.example.proyectoviewnext.filter.Filter;
 import com.example.proyectoviewnext.filter.FilterFragment;
-import com.example.proyectoviewnext.invoice.Invoice;
+import com.example.proyectoviewnext.invoice.InvoiceVO;
 import com.example.proyectoviewnext.invoice.InvoicesAdapter;
+import com.example.proyectoviewnext.invoice.InvoicesList;
 import com.example.proyectoviewnext.utils.AppConstants;
 
 import java.text.SimpleDateFormat;
@@ -27,12 +29,17 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements FilterFragment.OnButtonClickListener {
 
     private Filter filter;                   // Filtro a aplicar
-    private ArrayList<Invoice> invoiceList; // Array donde se guardarán los elementos de la lista
+    private List<InvoiceVO> invoiceVOList; // Array donde se guardarán los elementos de la lista
     private InvoicesAdapter adapter;         // Adaptador de facturas
 
     /**
@@ -76,42 +83,87 @@ public class MainActivity extends AppCompatActivity implements FilterFragment.On
         setSupportActionBar(toolbar);
 
         // Asignamos a la lista la vista list_view_invoices
-        recyclerViewList = (RecyclerView) findViewById(R.id.list_view_invoices);
+  /*       recyclerViewList = (RecyclerView) findViewById(R.id.list_view_invoices);
         if (recyclerViewList != null) {
             LinearLayoutManager llm = new LinearLayoutManager(MainActivity.this);
             llm.setOrientation(LinearLayoutManager.VERTICAL);
             recyclerViewList.setLayoutManager(llm);
 
+           invoiceVOList = new ArrayList<>();
+            invoiceVOList.add(new InvoiceVO("12/05/2023", "Pagada", 50.23));
+            invoiceVOList.add(new InvoiceVO("10/05/2023", "Cuota Fija", 30.10));
+            invoiceVOList.add(new InvoiceVO("08/05/2023", "Pagada", 5.75));
+            invoiceVOList.add(new InvoiceVO("06/05/2023", "Plan de pago", 125.50));
+            invoiceVOList.add(new InvoiceVO("05/05/2023", "Pendiente de pago", 50.23));
+            invoiceVOList.add(new InvoiceVO("01/05/2023", "Pagada", 30.10));
+            invoiceVOList.add(new InvoiceVO("30/04/2023", "Pagada", 5.75));
+            invoiceVOList.add(new InvoiceVO("22/04/2023", "Plan de pago", 125.50));
+            invoiceVOList.add(new InvoiceVO("12/04/2023", "", 50.23));
+            invoiceVOList.add(new InvoiceVO("10/04/2023", "", 30.10));
+            invoiceVOList.add(new InvoiceVO("08/04/2023", "", 5.75));
+            invoiceVOList.add(new InvoiceVO("06/04/2023", "", 184.99));
 
-            invoiceList = new ArrayList<>();
-            invoiceList.add(new Invoice("12/05/2023", "Pagada", 50.23));
-            invoiceList.add(new Invoice("10/05/2023", "Cuota Fija", 30.10));
-            invoiceList.add(new Invoice("08/05/2023", "Pagada", 5.75));
-            invoiceList.add(new Invoice("06/05/2023", "Plan de pago", 125.50));
-            invoiceList.add(new Invoice("05/05/2023", "Pendiente de pago", 50.23));
-            invoiceList.add(new Invoice("01/05/2023", "Pagada", 30.10));
-            invoiceList.add(new Invoice("30/04/2023", "Pagada", 5.75));
-            invoiceList.add(new Invoice("22/04/2023", "Plan de pago", 125.50));
-            invoiceList.add(new Invoice("12/04/2023", "", 50.23));
-            invoiceList.add(new Invoice("10/04/2023", "", 30.10));
-            invoiceList.add(new Invoice("08/04/2023", "", 5.75));
-            invoiceList.add(new Invoice("06/04/2023", "", 184.99));
+            adapter = new InvoicesAdapter(invoiceVOList);
+            recyclerViewList.setAdapter(adapter);*/
 
-            adapter = new InvoicesAdapter(invoiceList);
-            recyclerViewList.setAdapter(adapter);
-        }
+        adapter = new InvoicesAdapter(invoiceVOList);
+        adapter.setItemOnClickListener(new InvoicesAdapter.RecyclerOnClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle(R.string.alert_title).setMessage(R.string.alert_info).setPositiveButton(R.string.close_button, (dialog, id) -> dialog.dismiss());
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
+
+         Call<InvoicesList> call = InvoiceApiService.getApiService().getInvoices();
+         call.enqueue(new Callback<InvoicesList>() {
+            @Override
+            public void onResponse(Call<InvoicesList> call, Response<InvoicesList> response) {
+                if (response.isSuccessful()) {
+                    invoiceVOList = response.body().getFacturas();
+                    Log.d("onResponse elements", "Size of elements => " + invoiceVOList.size());
+                    adapter.setInvoicesList(invoiceVOList);
+
+                    RecyclerView recyclerView = findViewById(R.id.list_view_invoices);
+                    recyclerView.setHasFixedSize(true);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+                    recyclerView.setAdapter(adapter);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<InvoicesList> call, Throwable t) {
+                Log.d("onFailure", t.getLocalizedMessage());
+            }
+        });
     }
 
+    public void openFilterFragment(View view) {
+        View fragmentContainer = findViewById(R.id.filter_container);
+        fragmentContainer.setVisibility(View.VISIBLE);
+    }
+
+    public void closeFilterFragment(View view) {
+        Log.d("close", "closeFilterFragment");
+        View fragmentContainer = findViewById(R.id.filter_container);
+        fragmentContainer.setVisibility(View.GONE);
+    }
+
+
     public void setMaxAmount() {
-        double max = Integer.MIN_VALUE;
-        for (Invoice i : invoiceList) {
-            if (i.getAmount() > max)
-                max = i.getAmount();
+        if (invoiceVOList != null) {
+            double max = Integer.MIN_VALUE;
+            for (InvoiceVO i : invoiceVOList) {
+                if (i.getImporteOrdenacion() > max)
+                    max = i.getImporteOrdenacion();
+            }
+            // Redondea el importe máximo en porciones indicadas por AMOUNT_PORTION, en este caso 50
+            int roundedMax = (int) (Math.floor((max + AppConstants.AMOUNT_PORTION) / AppConstants.AMOUNT_PORTION)) * AppConstants.AMOUNT_PORTION;
+            filter.setMaxAmount(roundedMax);
+            filter.setAmountSelected(roundedMax);
         }
-        // Redondea el importe máximo en porciones indicadas por AMOUNT_PORTION, en este caso 50
-        int roundedMax = (int) (Math.floor((max + AppConstants.AMOUNT_PORTION) / AppConstants.AMOUNT_PORTION)) * AppConstants.AMOUNT_PORTION;
-        filter.setMaxAmount(roundedMax);
-        filter.setAmountSelected(roundedMax);
     }
 
     /**
@@ -119,16 +171,11 @@ public class MainActivity extends AppCompatActivity implements FilterFragment.On
      *
      * @param v La vista donde se hizo click
      */
-    //TODO VER LA POSIBILIDAD DE CAMBIAR ESTE CÓDIGO A LISTENER
+    // VER LA POSIBILIDAD DE CAMBIAR ESTE CÓDIGO A LISTENER
     public void onItemClick(View v) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-        alertDialog
-                .setTitle(R.string.alert_title)
-                .setMessage(R.string.alert_info)
-                .setPositiveButton(R.string.close_button, (dialog, which) -> dialog.dismiss());
-        alertDialog
-                .create()
-                .show();
+        alertDialog.setTitle(R.string.alert_title).setMessage(R.string.alert_info).setPositiveButton(R.string.close_button, (dialog, which) -> dialog.dismiss());
+        alertDialog.create().show();
     }
 
     /**
@@ -138,12 +185,9 @@ public class MainActivity extends AppCompatActivity implements FilterFragment.On
      */
     public void openFilter(MenuItem menuItem) {
         // Crear una instancia del FilterFragment
-        FilterFragment filterFragment = new FilterFragment(filter, invoiceList);
+        FilterFragment filterFragment = new FilterFragment(filter, invoiceVOList);
         // Obtener el FragmentManager
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fragment_container, filterFragment)
-                .commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, filterFragment).commit();
     }
 
     /**
@@ -207,9 +251,7 @@ public class MainActivity extends AppCompatActivity implements FilterFragment.On
      * @return String con la fecha convertida en texto en formato local
      */
     public String dateFormat(Date date) {
-        SimpleDateFormat newFormat = new SimpleDateFormat(AppConstants.API_DATE_FORMAT,
-                new Locale(AppConstants.API_DATE_LANGUAGE,
-                        AppConstants.API_DATE_COUNTRY));
+        SimpleDateFormat newFormat = new SimpleDateFormat(AppConstants.API_DATE_FORMAT, new Locale(AppConstants.API_DATE_LANGUAGE, AppConstants.API_DATE_COUNTRY));
         return newFormat.format(date);
     }
 
@@ -229,32 +271,8 @@ public class MainActivity extends AppCompatActivity implements FilterFragment.On
         return newCalendar.getTime();
     }
 
-
     @Override
-    public void onButtonClicked(ArrayList<Invoice> filteredInvoices) {
-        adapter.setInvoicesList(filteredInvoices);
-    }
-
-/*    @Override
-    public void onPointerCaptureChanged(boolean hasCapture) {
-        super.onPointerCaptureChanged(hasCapture);
-    }*/
-
-    /**
-     * Log con información del filtro
-     *
-     * @param msg Mensaje personalizado
-     */
-    public void myLog(String tag, String msg) {
-        Log.d("debug " + tag, msg + " -> from:" + filter.getDateFrom() +
-                ", until:" + filter.getDateUntil() +
-                ", fromtemp:" + filter.getDateFromTemp() +
-                ", untiltemp:" + filter.getDateUntilTemp() +
-                ", maxamount:" + filter.getAmountSelected() +
-                ", paid:" + filter.isPaid() +
-                ", cancelled:" + filter.isCancelled() +
-                ", fixed_fee:" + filter.isFixedFee() +
-                ", pending_payment:" + filter.isPendingPayment() +
-                ", payment_plan:" + filter.isPaymentPlan());
+    public void onButtonClicked(ArrayList<InvoiceVO> filteredInvoiceVOS) {
+        adapter.setInvoicesList(filteredInvoiceVOS);
     }
 }

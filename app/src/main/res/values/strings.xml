@@ -28,9 +28,9 @@
     <string name="filter_fragment_date_button">día/mes/año</string>
     <!-- Amount filter -->
     <string name="filter_fragment_amount_title">Por un importe</string>
-    <string name="filter_fragment_amount_min_selected">1 €</string>
+    <string name="filter_fragment_amount_min_selected">0 €</string>
     <string name="filter_fragment_amount_max_selected">250 €</string>
-    <string name="filter_fragment_amount_min_value">1 €</string>
+    <string name="filter_fragment_amount_min_value">0 €</string>
     <string name="filter_fragment_amount_max_value">300 €</string>
     <!-- Status filter -->
     <string name="filter_fragment_status_title">Por estado</string>
