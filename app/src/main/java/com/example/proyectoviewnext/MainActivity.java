@@ -215,32 +215,6 @@ public class MainActivity extends AppCompatActivity implements FilterFragment.On
         dpd.show();
     }
 
-    /**
-     * Aplica el formato local a la fecha pasada por parámetro y la convierte en String
-     *
-     * @param date Fecha a aplicar el formato
-     * @return String con la fecha convertida en texto en formato local
-     */
-    public String dateFormat(Date date) {
-        SimpleDateFormat newFormat = new SimpleDateFormat(AppConstants.API_DATE_FORMAT, new Locale(AppConstants.API_DATE_LANGUAGE, AppConstants.API_DATE_COUNTRY));
-        return newFormat.format(date);
-    }
-
-    /**
-     * Crea un nuevo Date con los datos pasados por parámetro
-     *
-     * @param year       Año
-     * @param month      Mes
-     * @param dayOfMonth Día del mes
-     * @return Date con la fecha generada
-     */
-    public Date getNewDate(int year, int month, int dayOfMonth) {
-        Calendar newCalendar = Calendar.getInstance();
-        newCalendar.set(Calendar.YEAR, year);
-        newCalendar.set(Calendar.MONTH, month);
-        newCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-        return newCalendar.getTime();
-    }
 
     @Override
     public void onButtonClicked(ArrayList<InvoiceVO> filteredInvoiceVOS) {
