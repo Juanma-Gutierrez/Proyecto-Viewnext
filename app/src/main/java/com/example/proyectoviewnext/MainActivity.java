@@ -227,8 +227,8 @@ public class MainActivity extends AppCompatActivity implements FilterFragment.On
         dateButtonFrom = findViewById(R.id.date_from_button);
         dateButtonUntil = findViewById(R.id.date_until_button);
 
-        DatePickerDialog dpd = new DatePickerDialog(this, (view1, year1, month1, dayOfMonth) -> {
-            LocalDate datePicker = LocalDate.of(year1, month1 + 1, dayOfMonth);
+        DatePickerDialog dpd = new DatePickerDialog(this, (view1, year, month, dayOfMonth) -> {
+            LocalDate datePicker = LocalDate.of(year, month + 1, dayOfMonth);
             if (buttonSelected.equals("from")) {
                 // Comprobar si hay que rellenar until
                 if (filter.getDateUntil() == null && filter.getDateUntilTemp() == null) {
@@ -241,7 +241,7 @@ public class MainActivity extends AppCompatActivity implements FilterFragment.On
                 dateButtonUntil.setText(datePicker.format(DateTimeFormatter.ofPattern(AppConstants.API_DATE_FORMAT)));
                 filter.setDateUntilTemp(datePicker);
             }
-        }, buttonDate.getYear(), buttonDate.getMonthValue(), buttonDate.getDayOfMonth());
+        }, buttonDate.getYear(), buttonDate.getMonthValue() - 1, buttonDate.getDayOfMonth());
         dpd.show();
     }
 
