@@ -39,10 +39,10 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements FilterFragment.OnButtonClickListener {
 
-    private Filter filter;                   // Filtro a aplicar
-    private List<InvoiceVO> invoiceVOList; // Array donde se guardarán los elementos de la lista
-    private InvoicesAdapter adapter;         // Adaptador de facturas
-    private InvoiceVORepository invoicesDB; // BBDD con las facturas cargadas;
+    private Filter filter;
+    private List<InvoiceVO> invoiceVOList;
+    private InvoicesAdapter adapter;
+    private InvoiceVORepository invoicesDB;
 
     /**
      * Se llama cuando se crea la activity por primera vez
@@ -50,13 +50,12 @@ public class MainActivity extends AppCompatActivity implements FilterFragment.On
      * @param savedInstanceState Si la activity está siendo recreada, este bundle contiene los datos
      *                           previos almacenados
      */
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.invoices_list);
         filter = new Filter();
-        // Base de datos
         dbInit();
-        // Cargamos los datos
         init();
     }
 
@@ -75,11 +74,8 @@ public class MainActivity extends AppCompatActivity implements FilterFragment.On
      * @param invoicesDB Repositorio con la BBDD
      */
     public void clearDataBase(@NonNull InvoiceVORepository invoicesDB) {
-        // Borrado inicial de la bbdd previa si el tamaño es diferente de 0
-        if (invoicesDB.getSize() != 0) {
-            invoicesDB.deleteAll();
-            invoicesDB.resetID();
-        }
+        invoicesDB.deleteAll();
+        invoicesDB.resetID();
     }
 
     /**
@@ -124,7 +120,6 @@ public class MainActivity extends AppCompatActivity implements FilterFragment.On
             }
 
             private void fillDataBase(List<InvoiceVO> invoiceVOList) {
-                InvoiceVO invoiceVO = new InvoiceVO();
                 for (InvoiceVO i : invoiceVOList)
                     invoicesDB.insertInvoiceVO(i);
             }
