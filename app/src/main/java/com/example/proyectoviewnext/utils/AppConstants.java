@@ -15,8 +15,9 @@ public final class AppConstants {
     // Retrofit
     // URL principal:   https://viewnextandroid.mocklab.io/facturas
     // URL alternativa: https://viewnextandroid2.wiremockapi.cloud/facturas
-    public static final String BASE_URL = "https://viewnextandroid2.wiremockapi.cloud/";
-    public static final String URL_PATH = "facturas";
+    // Github https://raw.githubusercontent.com/marruiart/json/main/README.md
+    public static final String BASE_URL = "https://raw.githubusercontent.com/marruiart/json/main/";
+    public static final String URL_PATH = "README.md";
 
     /**
      * Constructor privado para ocultar el constructor público implícito

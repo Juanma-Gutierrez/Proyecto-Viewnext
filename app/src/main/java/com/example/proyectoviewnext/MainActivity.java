@@ -66,11 +66,26 @@ public class MainActivity extends AppCompatActivity implements FilterFragment.On
     public void bdInit() {
         AppDatabase db = AppDatabase.getInstance(this.getApplicationContext());
         InvoiceDAO dao = db.invoiceDAO();
+        InvoiceVORepository repo = new InvoiceVORepositoryImpl(dao);
         InvoiceVO invoiceVO = new InvoiceVO();
-        InvoiceVORepository repo=new InvoiceVORepositoryImpl(dao);
+
+        initBBDD(repo);
+
         invoiceVO.setDescEstado("probando");
         invoiceVO.setImporteOrdenacion(125);
         repo.insertInvoiceVO(invoiceVO);
+    }
+
+    public void initBBDD(InvoiceVORepository repo) {
+
+        int size = repo.getSize();
+        Log.d("repo", "" + size);
+        // Borrado inicial de la bbdd previa si el tamaño es diferente de 0
+        if (size != 0) {
+            Log.d("repo", "borro bbdd");
+            repo.deleteAll();
+            repo.resetID();
+        }
     }
 
     /**

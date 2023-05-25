@@ -22,4 +22,16 @@ public class InvoiceVORepositoryImpl implements InvoiceVORepository {
     public void insertInvoiceVO(InvoiceVO invoiceVO) {
         dao.insertAll(invoiceVO);
     }
+
+    public void deleteAll(){
+        dao.deleteAll();
+    }
+
+    public void resetID(){
+        dao.resetID();
+    }
+
+    public int getSize(){
+        return dao.getSize();
+    }
 }

@@ -1,6 +1,7 @@
 package com.example.proyectoviewnext.database.dao;
 
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 
@@ -10,9 +11,18 @@ import java.util.List;
 
 @Dao
 public interface InvoiceDAO {
-    @Query("select * from InvoiceVO")
+    @Query("SELECT * FROM InvoiceVO")
     List<InvoiceVO> getAll();
 
     @Insert
     void insertAll(InvoiceVO ... invoiceVOS);
+
+    @Query("DELETE FROM InvoiceVO")
+    void deleteAll();
+
+    @Query("DELETE FROM sqlite_sequence WHERE name='InvoiceVO'")
+    void resetID();
+
+    @Query("SELECT COUNT(1) FROM InvoiceVO")
+    int getSize();
 }

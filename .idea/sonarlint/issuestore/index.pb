@@ -23,8 +23,6 @@ S
 +app/src/main/res/layout/fragment_filter.xml,5\5\557252b7e34ada786c5f4a87c50e96bd8cca05d3
 X
 (app/src/main/res/layout/invoice_item.xml,f\a\faef833aae7a24da1723d9c48bfd82c9a00e7cbe
-v
-Fapp/src/main/java/com/example/proyectoviewnext/utils/AppConstants.java,b\c\bcc050e268fbd5f7059f6cc47bc0baa01f6b8d74
 U
 %app/src/main/res/menu/menu_filter.xml,9\8\98ed3a7920f1bc7676727465e187aeb86339e3d7
 R
