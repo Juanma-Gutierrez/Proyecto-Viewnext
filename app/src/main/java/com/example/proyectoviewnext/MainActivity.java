@@ -9,12 +9,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.proyectoviewnext.database.AppDatabase;
+import com.example.proyectoviewnext.database.dao.InvoiceDAO;
+import com.example.proyectoviewnext.database.repository.InvoiceVORepository;
+import com.example.proyectoviewnext.database.repository.InvoiceVORepositoryImpl;
 import com.example.proyectoviewnext.filter.Filter;
 import com.example.proyectoviewnext.filter.FilterFragment;
 import com.example.proyectoviewnext.apiservice.InvoiceApiService;
@@ -23,14 +28,10 @@ import com.example.proyectoviewnext.invoice.InvoicesAdapter;
 import com.example.proyectoviewnext.invoice.InvoicesList;
 import com.example.proyectoviewnext.utils.AppConstants;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -38,9 +39,10 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements FilterFragment.OnButtonClickListener {
 
-    private Filter filter;                   // Filtro a aplicar
-    private List<InvoiceVO> invoiceVOList; // Array donde se guardarán los elementos de la lista
-    private InvoicesAdapter adapter;         // Adaptador de facturas
+    private Filter filter;
+    private List<InvoiceVO> invoiceVOList;
+    private InvoicesAdapter adapter;
+    private InvoiceVORepository invoicesDB;
 
     /**
      * Se llama cuando se crea la activity por primera vez
@@ -53,9 +55,27 @@ public class MainActivity extends AppCompatActivity implements FilterFragment.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.invoices_list);
         filter = new Filter();
-        // Cargamos los datos
+        dbInit();
         init();
+    }
 
+    /**
+     * Creación de la base de datos
+     */
+    public void dbInit() {
+        AppDatabase db = AppDatabase.getInstance(this.getApplicationContext());
+        InvoiceDAO dao = db.invoiceDAO();
+        invoicesDB = new InvoiceVORepositoryImpl(dao);
+    }
+
+    /**
+     * Inicialización de la base de datos, eliminando los datos previos si los hubiera
+     *
+     * @param invoicesDB Repositorio con la BBDD
+     */
+    public void clearDataBase(@NonNull InvoiceVORepository invoicesDB) {
+        invoicesDB.deleteAll();
+        invoicesDB.resetID();
     }
 
     /**
@@ -75,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements FilterFragment.On
      * Inicializa la carga de datos de facturas
      */
     public void init() {
-        // Menu
+        // Carga del Toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.invoices_list_title);
         setSupportActionBar(toolbar);
@@ -94,14 +114,15 @@ public class MainActivity extends AppCompatActivity implements FilterFragment.On
             public void onResponse(Call<InvoicesList> call, Response<InvoicesList> response) {
                 if (response.isSuccessful()) {
                     invoiceVOList = response.body().getFacturas();
-                    Log.d("onResponse elements", "Size of elements => " + invoiceVOList.size());
-                    adapter.setInvoicesList(invoiceVOList);
-                    RecyclerView recyclerView = findViewById(R.id.list_view_invoices);
-                    recyclerView.setHasFixedSize(true);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-                    recyclerView.setAdapter(adapter);
+                    clearDataBase(invoicesDB);
+                    fillDataBase(invoiceVOList);
                     setMaxAmount();
                 }
+            }
+
+            private void fillDataBase(List<InvoiceVO> invoiceVOList) {
+                for (InvoiceVO i : invoiceVOList)
+                    invoicesDB.insertInvoiceVO(i);
             }
 
             @Override
@@ -109,20 +130,19 @@ public class MainActivity extends AppCompatActivity implements FilterFragment.On
                 Log.d("onFailure", t.getLocalizedMessage());
             }
         });
-    }
-
-    public void openFilterFragment() {
-        View fragmentContainer = findViewById(R.id.filter_container);
-        fragmentContainer.setVisibility(View.VISIBLE);
-    }
-
-    public void closeFilterFragment() {
-        Log.d("close", "closeFilterFragment");
-        View fragmentContainer = findViewById(R.id.filter_container);
-        fragmentContainer.setVisibility(View.GONE);
+        invoiceVOList = invoicesDB.getAllItems();
+        adapter.setInvoicesList(invoiceVOList);
+        RecyclerView recyclerView = findViewById(R.id.list_view_invoices);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+        recyclerView.setAdapter(adapter);
+        setMaxAmount();
     }
 
 
+    /**
+     * Calcula el máximo valor que hay que poner en el SeekBar.
+     */
     public void setMaxAmount() {
         if (invoiceVOList != null) {
             double max = Integer.MIN_VALUE;
@@ -130,7 +150,7 @@ public class MainActivity extends AppCompatActivity implements FilterFragment.On
                 if (i.getImporteOrdenacion() > max)
                     max = i.getImporteOrdenacion();
             }
-            // Redondea el importe máximo en porciones indicadas por AMOUNT_PORTION, en este caso 50
+            // Redondea el importe máximo en porciones indicadas por AMOUNT_PORTION, en este caso 5
             int roundedMax = (int) (Math.floor((max + AppConstants.AMOUNT_PORTION) / AppConstants.AMOUNT_PORTION)) * AppConstants.AMOUNT_PORTION;
             filter.setMaxAmount(roundedMax);
             filter.setAmountSelected(roundedMax);
@@ -142,7 +162,6 @@ public class MainActivity extends AppCompatActivity implements FilterFragment.On
      *
      * @param v La vista donde se hizo click
      */
-    // VER LA POSIBILIDAD DE CAMBIAR ESTE CÓDIGO A LISTENER
     public void onItemClick(View v) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
         alertDialog.setTitle(R.string.alert_title).setMessage(R.string.alert_info).setPositiveButton(R.string.close_button, (dialog, which) -> dialog.dismiss());
@@ -197,8 +216,8 @@ public class MainActivity extends AppCompatActivity implements FilterFragment.On
         dateButtonFrom = findViewById(R.id.date_from_button);
         dateButtonUntil = findViewById(R.id.date_until_button);
 
-        DatePickerDialog dpd = new DatePickerDialog(this, (view1, year1, month1, dayOfMonth) -> {
-            LocalDate datePicker = LocalDate.of(year1, month1 + 1, dayOfMonth);
+        DatePickerDialog dpd = new DatePickerDialog(this, (view1, year, month, dayOfMonth) -> {
+            LocalDate datePicker = LocalDate.of(year, month + 1, dayOfMonth);
             if (buttonSelected.equals("from")) {
                 // Comprobar si hay que rellenar until
                 if (filter.getDateUntil() == null && filter.getDateUntilTemp() == null) {
@@ -211,35 +230,8 @@ public class MainActivity extends AppCompatActivity implements FilterFragment.On
                 dateButtonUntil.setText(datePicker.format(DateTimeFormatter.ofPattern(AppConstants.API_DATE_FORMAT)));
                 filter.setDateUntilTemp(datePicker);
             }
-        }, buttonDate.getYear(), buttonDate.getMonthValue(), buttonDate.getDayOfMonth());
+        }, buttonDate.getYear(), buttonDate.getMonthValue() - 1, buttonDate.getDayOfMonth());
         dpd.show();
-    }
-
-    /**
-     * Aplica el formato local a la fecha pasada por parámetro y la convierte en String
-     *
-     * @param date Fecha a aplicar el formato
-     * @return String con la fecha convertida en texto en formato local
-     */
-    public String dateFormat(Date date) {
-        SimpleDateFormat newFormat = new SimpleDateFormat(AppConstants.API_DATE_FORMAT, new Locale(AppConstants.API_DATE_LANGUAGE, AppConstants.API_DATE_COUNTRY));
-        return newFormat.format(date);
-    }
-
-    /**
-     * Crea un nuevo Date con los datos pasados por parámetro
-     *
-     * @param year       Año
-     * @param month      Mes
-     * @param dayOfMonth Día del mes
-     * @return Date con la fecha generada
-     */
-    public Date getNewDate(int year, int month, int dayOfMonth) {
-        Calendar newCalendar = Calendar.getInstance();
-        newCalendar.set(Calendar.YEAR, year);
-        newCalendar.set(Calendar.MONTH, month);
-        newCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-        return newCalendar.getTime();
     }
 
     @Override
