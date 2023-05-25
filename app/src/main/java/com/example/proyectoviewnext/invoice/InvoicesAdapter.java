@@ -36,9 +36,10 @@ public class InvoicesAdapter extends RecyclerView.Adapter<InvoicesAdapter.Invoic
      *
      * @param invoicesList Lista de facturas
      */
-    public void setInvoicesList(List<InvoiceVO> invoicesList) {
+    public RecyclerOnClickListener setInvoicesList(List<InvoiceVO> invoicesList) {
         this.invoicesList = invoicesList;
         notifyDataSetChanged();
+        return listener;
     }
 
     /**

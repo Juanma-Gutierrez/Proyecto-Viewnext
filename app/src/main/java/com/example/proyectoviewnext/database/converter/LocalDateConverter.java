@@ -2,12 +2,13 @@ package com.example.proyectoviewnext.database.converter;
 
 import androidx.room.TypeConverter;
 
-import com.example.proyectoviewnext.utils.AppConstants;
-
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 public class LocalDateConverter {
+    private LocalDateConverter() {
+        // Constructor privado requerido
+    }
+
     @TypeConverter
     public static LocalDate toDate(String dateString) {
         if (dateString == null) {

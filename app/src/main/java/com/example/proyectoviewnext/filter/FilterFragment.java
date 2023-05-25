@@ -295,6 +295,7 @@ public class FilterFragment extends Fragment {
         super.onDetach();
         buttonClickListener = null;
     }
+
 }
 
 
