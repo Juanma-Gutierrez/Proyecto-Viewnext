@@ -16,8 +16,9 @@ public final class AppConstants {
     // URL principal:   https://viewnextandroid.mocklab.io/facturas
     // URL alternativa: https://viewnextandroid2.wiremockapi.cloud/facturas
     // Github https://raw.githubusercontent.com/marruiart/json/main/README.md
-    public static final String BASE_URL = "https://raw.githubusercontent.com/marruiart/json/main/";
-    public static final String URL_PATH = "README.md";
+    // GitHub https://raw.githubusercontent.com/Juanma-Gutierrez/Proyecto-Viewnext/develop/json.aux
+    public static final String BASE_URL = "https://raw.githubusercontent.com/Juanma-Gutierrez/Proyecto-Viewnext/develop/";
+    public static final String URL_PATH = "json.aux";
 
     /**
      * Constructor privado para ocultar el constructor público implícito
