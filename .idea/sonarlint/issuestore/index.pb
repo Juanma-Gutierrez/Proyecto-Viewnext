@@ -25,8 +25,6 @@ S
 +app/src/main/res/layout/fragment_filter.xml,5\5\557252b7e34ada786c5f4a87c50e96bd8cca05d3
 X
 (app/src/main/res/layout/invoice_item.xml,f\a\faef833aae7a24da1723d9c48bfd82c9a00e7cbe
-v
-Fapp/src/main/java/com/example/proyectoviewnext/utils/AppConstants.java,b\c\bcc050e268fbd5f7059f6cc47bc0baa01f6b8d74
 U
 %app/src/main/res/menu/menu_filter.xml,9\8\98ed3a7920f1bc7676727465e187aeb86339e3d7
 R
@@ -41,16 +39,12 @@ X
 Rapp/src/androidTest/java/com/example/proyectoviewnext/ExampleInstrumentedTest.java,b\b\bb34a2a3c2f039e950ddd430634d59f28c8507d7
 @
 app/build.gradle,f\4\f4a01d6a4fcb971362ec00a83903fd3902f52164
-€
-Papp/src/main/java/com/example/proyectoviewnext/apiservice/InvoiceApiService.java,1\a\1a602ee8a77e20c6a5c8814d74a51154851d84ea
 P
  app/src/main/AndroidManifest.xml,8\c\8c55c3ccc257e5907959013f99656e4c8ec3903e
 s
 Capp/src/test/java/com/example/proyectoviewnext/ExampleUnitTest.java,f\5\f5e21ca4eab3f0905fc2d7a82c2285323870f7ba
 Y
 )app/src/main/res/layout/invoices_list.xml,7\7\773610e7accb351bb7873031891acaa04b9b9a54
-‡
-Wapp/src/main/java/com/example/proyectoviewnext/apiservice/InvoiceApiServiceRequest.java,d\8\d834814162f6f4eb6170cad2a092fd3587870db8
 q
 Aapp/src/main/java/com/example/proyectoviewnext/filter/Filter.java,3\5\35f29993b2866267294e47b5e2ae8337e3e8bd17
 U

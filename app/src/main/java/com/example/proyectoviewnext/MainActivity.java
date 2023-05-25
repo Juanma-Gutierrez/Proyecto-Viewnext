@@ -67,14 +67,6 @@ public class MainActivity extends AppCompatActivity implements FilterFragment.On
         AppDatabase db = AppDatabase.getInstance(this.getApplicationContext());
         InvoiceDAO dao = db.invoiceDAO();
         invoicesDB = new InvoiceVORepositoryImpl(dao);
-        // Iniciamos la base de datos
-         // clearBBDD(invoicesDB);
-/*
-        InvoiceVO invoiceVO = new InvoiceVO();
-        invoiceVO.setDescEstado("probando");
-        invoiceVO.setImporteOrdenacion(125);
-        invoicesDB.insertInvoiceVO(invoiceVO);
-*/
     }
 
     /**
@@ -125,32 +117,31 @@ public class MainActivity extends AppCompatActivity implements FilterFragment.On
             @Override
             public void onResponse(Call<InvoicesList> call, Response<InvoicesList> response) {
                 if (response.isSuccessful()) {
-                    // Si hay datos en la BD los cargamos en invoiceVOList
-                     invoiceVOList =  response.body().getFacturas();
-                    //invoiceVOList = invoicesDB.getAllItems();
+                    invoiceVOList = response.body().getFacturas();
                     clearDataBase(invoicesDB);
                     fillDataBase(invoiceVOList);
-                    Log.d("onResponse elements", "Size of elements => " + invoiceVOList.size());
-                    adapter.setInvoicesList(invoiceVOList);
-                    RecyclerView recyclerView = findViewById(R.id.list_view_invoices);
-                    recyclerView.setHasFixedSize(true);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-                    recyclerView.setAdapter(adapter);
-                    setMaxAmount();
                 }
             }
+
             private void fillDataBase(List<InvoiceVO> invoiceVOList) {
                 InvoiceVO invoiceVO = new InvoiceVO();
                 for (InvoiceVO i : invoiceVOList)
                     invoicesDB.insertInvoiceVO(i);
             }
+
             @Override
             public void onFailure(Call<InvoicesList> call, Throwable t) {
                 Log.d("onFailure", t.getLocalizedMessage());
             }
         });
+        invoiceVOList = invoicesDB.getAllItems();
+        adapter.setInvoicesList(invoiceVOList);
+        RecyclerView recyclerView = findViewById(R.id.list_view_invoices);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+        recyclerView.setAdapter(adapter);
+        setMaxAmount();
     }
-
 
 
     /**
