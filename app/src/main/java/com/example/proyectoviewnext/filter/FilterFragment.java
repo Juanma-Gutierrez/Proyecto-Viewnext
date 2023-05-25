@@ -22,7 +22,6 @@ import com.example.proyectoviewnext.R;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
@@ -161,7 +160,7 @@ public class FilterFragment extends Fragment {
      */
     private boolean checkDate(InvoiceVO i) {
         // Capturamos los datos de las fechas en formato LocalDate (fecha) sin tener en cuenta la hora
-        LocalDate date = i.getDate();
+        LocalDate date = i.getFecha();
         LocalDate from = (filter.getDateFrom() != null) ? filter.getDateFrom() : LocalDate.ofEpochDay(0); // Si es nulo, ponemos la fecha más antigua del sistema
         LocalDate until = (filter.getDateUntil() != null) ? filter.getDateUntil() : LocalDate.now(); // Si es nulo ponemos la fecha actual
         return (date.compareTo(from) >= 0 && date.compareTo(until) <= 0);

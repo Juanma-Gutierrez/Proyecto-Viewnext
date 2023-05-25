@@ -15,6 +15,10 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.proyectoviewnext.database.AppDatabase;
+import com.example.proyectoviewnext.database.dao.InvoiceDAO;
+import com.example.proyectoviewnext.database.repository.InvoiceVORepository;
+import com.example.proyectoviewnext.database.repository.InvoiceVORepositoryImpl;
 import com.example.proyectoviewnext.filter.Filter;
 import com.example.proyectoviewnext.filter.FilterFragment;
 import com.example.proyectoviewnext.apiservice.InvoiceApiService;
@@ -53,9 +57,20 @@ public class MainActivity extends AppCompatActivity implements FilterFragment.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.invoices_list);
         filter = new Filter();
+        // Base de datos
+        bdInit();
         // Cargamos los datos
         init();
+    }
 
+    public void bdInit() {
+        AppDatabase db = AppDatabase.getInstance(this.getApplicationContext());
+        InvoiceDAO dao = db.invoiceDAO();
+        InvoiceVO invoiceVO = new InvoiceVO();
+        InvoiceVORepository repo=new InvoiceVORepositoryImpl(dao);
+        invoiceVO.setDescEstado("probando");
+        invoiceVO.setImporteOrdenacion(125);
+        repo.insertInvoiceVO(invoiceVO);
     }
 
     /**
