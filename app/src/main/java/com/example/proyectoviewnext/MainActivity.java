@@ -116,6 +116,7 @@ public class MainActivity extends AppCompatActivity implements FilterFragment.On
                     invoiceVOList = response.body().getFacturas();
                     clearDataBase(invoicesDB);
                     fillDataBase(invoiceVOList);
+                    setMaxAmount();
                 }
             }
 
