@@ -60,8 +60,7 @@ public class FilterFragment extends Fragment {
      * @return
      */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Rellenar el layout para este fragment
         View view = inflater.inflate(R.layout.fragment_filter, container, false);
         // Preparación del toolbar
@@ -216,12 +215,8 @@ public class FilterFragment extends Fragment {
      * @param filter Objeto filter con la configuración del filtro a aplicar
      */
     private void loadValues(Filter filter) {
-        dateFromButton.setText((filter.getDateFrom() == null) ?
-                AppConstants.DATE_BUTTON :
-                filter.getDateFrom().format(DateTimeFormatter.ofPattern(AppConstants.API_DATE_FORMAT)));
-        dateUntilButton.setText((filter.getDateUntil() == null) ?
-                AppConstants.DATE_BUTTON :
-                filter.getDateUntil().format(DateTimeFormatter.ofPattern(AppConstants.API_DATE_FORMAT)));
+        dateFromButton.setText((filter.getDateFrom() == null) ? AppConstants.DATE_BUTTON : filter.getDateFrom().format(DateTimeFormatter.ofPattern(AppConstants.API_DATE_FORMAT)));
+        dateUntilButton.setText((filter.getDateUntil() == null) ? AppConstants.DATE_BUTTON : filter.getDateUntil().format(DateTimeFormatter.ofPattern(AppConstants.API_DATE_FORMAT)));
         amountSeekbar.setMax((int) filter.getMaxAmount());
         amountSeekbar.setProgress(filter.getAmountSelected());
         amountMaxTitle.setText(String.valueOf(filter.getMaxAmount()) + " €");
@@ -248,9 +243,7 @@ public class FilterFragment extends Fragment {
      */
     private void closeFragment() {
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .remove(this)
-                .commit();
+        fragmentManager.beginTransaction().remove(this).commit();
     }
 
     /**
