@@ -44,6 +44,9 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.6.4'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.9.3'
 
+    /* Retromock: Carga de datos mockup como Json */
+    implementation 'co.infinum:retromock:1.1.1'
+
     /* Test: Testing de la aplicación */
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'

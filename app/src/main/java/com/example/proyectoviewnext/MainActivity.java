@@ -117,6 +117,7 @@ public class MainActivity extends AppCompatActivity implements FilterFragment.On
                     clearDataBase(invoicesDB);
                     fillDataBase(invoiceVOList);
                     setMaxAmount();
+                    fillRecyclerView();
                 }
             }
 
@@ -132,11 +133,18 @@ public class MainActivity extends AppCompatActivity implements FilterFragment.On
         });
         invoiceVOList = invoicesDB.getAllItems();
         adapter.setInvoicesList(invoiceVOList);
+        setMaxAmount();
+        fillRecyclerView();
+    }
+
+    /**
+     * Rellena el recyclerView con el layout correpondiente
+     */
+    public void fillRecyclerView() {
         RecyclerView recyclerView = findViewById(R.id.list_view_invoices);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
         recyclerView.setAdapter(adapter);
-        setMaxAmount();
     }
 
 
@@ -147,8 +155,7 @@ public class MainActivity extends AppCompatActivity implements FilterFragment.On
         if (invoiceVOList != null) {
             double max = Integer.MIN_VALUE;
             for (InvoiceVO i : invoiceVOList) {
-                if (i.getImporteOrdenacion() > max)
-                    max = i.getImporteOrdenacion();
+                if (i.getImporteOrdenacion() > max) max = i.getImporteOrdenacion();
             }
             // Redondea el importe máximo en porciones indicadas por AMOUNT_PORTION, en este caso 5
             int roundedMax = (int) (Math.floor((max + AppConstants.AMOUNT_PORTION) / AppConstants.AMOUNT_PORTION)) * AppConstants.AMOUNT_PORTION;
@@ -187,10 +194,7 @@ public class MainActivity extends AppCompatActivity implements FilterFragment.On
      */
     public MenuItem closeFilter(MenuItem menuItem) {
         // Cerrar el FragmentManager
-        getSupportFragmentManager()
-                .beginTransaction()
-                .remove(getSupportFragmentManager().findFragmentById(R.id.fragment_container))
-                .commit();
+        getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentById(R.id.fragment_container)).commit();
         return menuItem;
     }
 

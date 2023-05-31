@@ -14,7 +14,7 @@ public interface InvoiceDAO {
     List<InvoiceVO> getAll();
 
     @Insert
-    void insertAll(InvoiceVO ... invoiceVOS);
+    void insertAll(InvoiceVO... invoiceVOS);
 
     @Query("DELETE FROM InvoiceVO")
     void deleteAll();
